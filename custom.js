@@ -87,8 +87,8 @@ window.MY_SCOPE = $scope;
 
   $scope.questionKnown = function () {
     //if the answer is known, demote the tags
-    for (var i = 0; i < questions[currentQuestionId].tags.length; i++){
-      tags[questions[currentQuestionId].tags[i]]--;
+    for (var i = 0; i < $scope.questions[currentQuestionId].tags.length; i++){
+      $scope.tags[questions[currentQuestionId].tags[i]]--;
     }
 
     //now go and get a new question
@@ -97,7 +97,7 @@ window.MY_SCOPE = $scope;
 
   $scope.questionNotKnown = function () {
     //if the answer is not known, promote the tags
-    for(var i = 0; i < questions[currentQuestionId].tags.length; i++){
+    for(var i = 0; i < $scope.questions[currentQuestionId].tags.length; i++){
       $scope.tags[questions[currentQuestionId].tags[i]]++;
     }
     
