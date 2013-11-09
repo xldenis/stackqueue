@@ -119,6 +119,8 @@ chatScope = angular.element(document.getElementById('body')).scope();
 SQ.controller("IndexController", function ($scope, $http, $window, $location, $rootScope) {
   
   TOPIC_SCOPE = $scope;
+
+  $('.ui.dropdown').dropdown();
   
   $scope.submitTopic = function () {
     //write to the external variable here
