@@ -19,45 +19,85 @@ SQ.config(['$routeProvider',
 SQ.controller("IndexController", function ($scope, $http, $window) {
   $scope.nothing = 0;
 });
-SQ.controller("AnswerController", function ($scope, $http, $window) {
-  $scope.nothing = 0;
+SQ.controller("AnswerController", function ($scope, $http, $window, sharedProperties) {
+  $scope.nothing = 0;//show correct answer
+
+  function showAnswer(answers) {
+    if (answers.length > 0) {
+      $scope.currentAnswer = answers[0].body;
+    }
+    else {
+      $scope.currentAnswer = 'no answers :(';
+    }
+  };
+
+  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + sharedProperties.getCurrentQuestionId() + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    .success(function(data, status, headers, config) {
+      $scope.test = data;
+             showAnswer(data['items']);
+    }).
+      error(function(data, status, headers, config) {
+             $window.alert('ERROR LOADING ANSWERS');
+    });
 });
+
+
+SQ.service('sharedProperties', function () {
+        var currentQuestionId = -1;
+        return {
+            getCurrentQuestionId: function () {
+                return currentQuestionId;
+            },
+            setCurrentQuestionId: function(value) {
+                currentQuestionId = value;
+            }
+        };
+    });
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
-SQ.controller("QuestionController", function ($scope, $http, $window) {
-window.MY_SCOPE = $scope;
+SQ.controller("QuestionController", function ($scope, $http, $window, sharedProperties) {
+  window.MY_SCOPE = $scope;
   // these variables are set by the API interface
   $scope.questions = {};
   $scope.tags = {};
-  $scope.currentQuestionId = -1;
+  $scope.topicTags = {};
   $scope.topic = 'python';
   $scope.test = [];
   $scope.question = true; //Boolean flag on whether we are showing a question or answer.
 
-  $scope.currentTitle = "";
-  $scope.currentQuestion = "";
+  $scope.currentTitle = "The Python yield keyword explained";
+  $scope.currentQuestion = "<p>placeholder...</p>";
   $scope.stackOverflowUrl = "http://stackoverflow.com";
   
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
-  	//formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
-  	for (q in $scope.questions) {
-  		question = $scope.questions[q];
-  		if (question.asked == false) {
-  			avgTagScore = 0.0;
-  			count = 0;
-  			for (tag in question.tags)
-  				avgTagScore += $scope.tags[question.tags[tag]];
-  			avgTagScore /= question.tags.length;
-  			$scope.questions[q].ourScore = (avgTagScore * 10000) + question.score
-  		}
-  	}
+          //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
+          for (q in $scope.questions) {
+                  question = $scope.questions[q];
+                  if (question.asked == false) {
+                          avgTagScore = 0.0;
+                          count = 0;
+                          for (tag in question.tags)
+                                  avgTagScore += $scope.tags[question.tags[tag]];
+                          avgTagScore /= question.tags.length;
+                          $scope.questions[q].ourScore = (avgTagScore * 10000) + question.score
+                  }
+          }
+  };
+
+  //gets all the tags
+  function getTags(newTags) {
+    for(t in newTags)
+    {
+      console.log(newTags[t].name);
+      $scope.topicTags[newTags[t].name] = 0;
+    }
   };
 
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
-  	//add any new tags
+          //add any new tags
     for (q in newQuestions){
       question = newQuestions[q];
       for (t in question.tags) {
@@ -67,92 +107,82 @@ window.MY_SCOPE = $scope;
       }
     }
 
-  	//add new questions
-  	for (q in newQuestions) {
-  		question = newQuestions[q];
-  		question.question_id = new String(question.question_id);
-  		if ($scope.questions[question.question_id] == undefined) {
-  			question.asked = false;
-  			question.ourScore = -1; //not calculated yet
-  			$scope.questions[question.question_id] = question;
-  		}
-  	}
-  	$scope.getNewQuestion();
+          //add new questions
+          for (q in newQuestions) {
+                  question = newQuestions[q];
+                  question.question_id = new String(question.question_id);
+                  if ($scope.questions[question.question_id] == undefined) {
+                          question.asked = false;
+                          question.ourScore = -1; //not calculated yet
+                          $scope.questions[question.question_id] = question;
+                  }
+          }
+          $scope.getNewQuestion();
   };
 
   $scope.getNewQuestion = function() {
-  	//update scores
-  	updateAllUnansweredQuestionScores();
+          //update scores
+          updateAllUnansweredQuestionScores();
 
-  	//compute best question
-  	maxScore = -10000000;
-  	topQuestion = $scope.questions[0];
-  	for (q in $scope.questions) {
-  		question = $scope.questions[q];
-  		if (question.asked == false) {
-  			if (question.ourScore > maxScore) {
-  				maxScore = question.ourScore;
-  				topQuestion = question;
-  			}
-  		}
-  	}
+          //compute best question
+          maxScore = -10000000;
+          topQuestion = $scope.questions[0];
+          for (q in $scope.questions) {
+                  question = $scope.questions[q];
+                  if (question.asked == false) {
+                          if (question.ourScore > maxScore) {
+                                  maxScore = question.ourScore;
+                                  topQuestion = question;
+                          }
+                  }
+          }
 
-  	// fill in new values for title, question, stackOverflowUrl
-  	$scope.currentQuestionId = topQuestion.question_id;
-  	$scope.currentTitle = topQuestion.title;
-  	$scope.currentQuestion = topQuestion.body;
-  	$scope.stackOverflowUrl = topQuestion.link;
+          // fill in new values for title, question, stackOverflowUrl
+          sharedProperties.setCurrentQuestionId(topQuestion.question_id);
+          $scope.currentTitle = topQuestion.title;
+          $scope.currentQuestion = topQuestion.body;
+          $scope.stackOverflowUrl = topQuestion.link;
 
-  	$scope.questions[$scope.currentQuestionId].asked = true;
-  }
-
-  function showAnswer(answers) {
-  	if (answers.length > 0) {
-  		$window.alert(answers[0].body);
-  	}
-  	else {
-  		$window.alert('no answers :(');
-  	}
-
-  	$scope.getNewQuestion();
+          $scope.questions[sharedProperties.getCurrentQuestionId()].asked = true;
   };
 
   $scope.questionKnown = function () {
 
     //if the answer is known, demote the tags
-    for (var i = 0; i < $scope.questions[$scope.currentQuestionId].tags.length; i++){
-      $scope.tags[$scope.questions[$scope.currentQuestionId].tags[i]]--;
+    for (var i = 0; i < $scope.questions[sharedProperties.getCurrentQuestionId()].tags.length; i++){
+      $scope.tags[$scope.questions[sharedProperties.getCurrentQuestionId()].tags[i]]--;
     }
 
     //now go and get a new question
     $scope.getNewQuestion();
-  }
+  };
 
   $scope.questionNotKnown = function () {
     //if the answer is not known, promote the tags
-    for(var i = 0; i < $scope.questions[$scope.currentQuestionId].tags.length; i++){
-      $scope.tags[$scope.questions[$scope.currentQuestionId].tags[i]]++;
+    for(var i = 0; i < $scope.questions[sharedProperties.getCurrentQuestionId()].tags.length; i++){
+      $scope.tags[$scope.questions[sharedProperties.getCurrentQuestionId()].tags[i]]++;
     }
 
-    //show correct answer
-  	 $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $scope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK')
-	  .success(function(data, status, headers, config) {
-	  	$scope.test = data;
-	    	     showAnswer(data['items']);
-		}).
-	    error(function(data, status, headers, config) {
-	    	     $window.alert('ERROR LOADING ANSWERS');
-		});
-  }
+    $location.path( "/answer" );
+  };
 
   // load the data for the 'python' stackoverflow questions
-  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK')
-	  .success(function(data, status, headers, config) {
-	  	$scope.test = data;
-	    	     processNewlyFetchedQuestions(data['items']);
-		}).
-	    error(function(data, status, headers, config) {
-	    	     $window.alert('ERROR LOADING QUESTIONS');
-		});
+  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+          .success(function(data, status, headers, config) {
+                  $scope.test = data;
+                         processNewlyFetchedQuestions(data['items']);
+                }).
+            error(function(data, status, headers, config) {
+                         $window.alert('ERROR LOADING QUESTIONS');
+                });
 
+  //get all tags
+  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    .success(function(data, status, headers, config) {
+      $scope.test = data;
+             getTags(data['items']);
+    }).
+      error(function(data, status, headers, config) {
+             $window.alert('ERROR LOADING DATA');
+    });
 });
