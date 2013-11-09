@@ -1,10 +1,11 @@
 function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
-  questions = [];
-  tags = {};
-
-
+  var questions = {};
+  var tags = {};
+  var currentQuestionId = -1;
+  var topic = 'python';
+  
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
 	//TODO: Cody
@@ -15,21 +16,13 @@ function stackQueueCtrl($scope, $http, $window) {
   	alert(newQuestions);
   };
 
-  function chooseBestQuestion() {
-  	
-  };
-
-  $scope.title = "This is the title";
-  $scope.question = "This is the question";
-  $scope.tags = ['python', 'django', 'mysql'];
+  $scope.currentTitle = "This is the title";
+  $scope.currentQuestion = "This is the question";
   $scope.stackOverflowUrl = "http://stackoverflow.com";
 
-
-  // these variables keep track of what kind of questions should be asked in the future
-  $scope.favouriteTags = ['python'];
-  $scope.blackListedTags = ['Java'];
-
-  
+  $scope.getNewQuestion = function() {
+    // fill in new values for title, question, tags, stackOverflowUrl
+  }
 
   $scope.questionKnown = function () {
     //if the answer is known, demote the tags
@@ -48,10 +41,6 @@ function stackQueueCtrl($scope, $http, $window) {
 
     //now go and get a new question
     $scope.getNewQuestion();
-  }
-
-  $scope.getNewQuestion = function() {
-    // fill in new values for title, question, tags, stackOverflowUrl
   }
 
   $scope.questionNotKnown = function () {
