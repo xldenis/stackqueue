@@ -151,7 +151,6 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   $('.ui.dropdown').dropdown();
   
   $scope.submitTopic = function () {
-    $window.alert("!HI");
     //write to the external variable here
     $rootScope.topic = $scope.topic;
     $rootScope.stackexchangeSite = $('div.menu > div.active').attr('data-value');
@@ -159,9 +158,32 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
     window.location = "#question";
   }
   $scope.topic = '';
-  $('.ui.dropdown').dropdown();
+
+  $('.ui.dropdown').dropdown({
+          onChange: function(value) {
+            chatScope.
+          }
+        });
 
   $rootScope.$on('$locationChangeStart',function(){$('.masthead').remove()});
+
+  //gets all the tags
+  $scope.getTags = function(newTags) {
+    for(t in newTags)
+    {
+      console.log(newTags[t].name);
+      $rootScope.topicTags[newTags[t].name] = 0;
+    }
+  };
+
+  //get all tags
+  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=20&order=desc&sort=popular&site=' + $rootScope.stackexchangeSite + '&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    .success(function(data, status, headers, config) {
+             $scope.getTags(data['items']);
+    }).
+      error(function(data, status, headers, config) {
+             $window.alert('ERROR LOADING TAGS');
+    });
 });
 
 SQ.controller("QuestionController", function ($scope, $http, $window, $route, $location, $rootScope) {
@@ -279,7 +301,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $rootScope.tags = {};
     $rootScope.question = true;
 
-    $window.alert($rootScope.stackexchangeSite);
     // load the data for the 'python' stackoverflow questions
     $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&sort=votes&tagged=' + $rootScope.topic + '&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
       .success(function(data, status, headers, config) {
