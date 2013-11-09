@@ -1,6 +1,24 @@
 function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
+  questions = [];
+  tags = {};
+
+
+  function processNewlyFetchedQuestions(newQuestions) {
+  	//add any new tags
+	//TODO: Cody
+
+  	//add new questions
+  	questions.push(newQuestions);
+
+  	alert(newQuestions);
+  };
+
+  function chooseBestQuestion() {
+  	
+  };
+
   $scope.title = "This is the title";
   $scope.question = "This is the question";
   $scope.tags = ['python', 'django', 'mysql'];
@@ -42,10 +60,10 @@ function stackQueueCtrl($scope, $http, $window) {
     //get the answer
   }
 
-    // load the data for the 'python' stackoverflow questions
-    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=JSON_CALLBACK')
+  // load the data for the 'python' stackoverflow questions
+  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=JSON_CALLBACK')
 	  .success(function(data, status, headers, config) {
-	    	     $window.alert(data.items);
+	    	     processNewlyFetchedQuestions(data.items);
 		}).
 	    error(function(data, status, headers, config) {
 	    	     $window.alert('ERROR LOADING DATA');
