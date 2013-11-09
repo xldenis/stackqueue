@@ -67,6 +67,7 @@ SQ.run(function($rootScope) {
   $rootScope.topicTags = {};
   $rootScope.topic = 'python';
   $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
+
 });
 
 chatScope = angular.element(document.getElementById('body')).scope();
@@ -80,10 +81,11 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
     window.location = "#question";
   }
   $scope.topic = '';
+  $rootScope.$on('$locationChangeStart',function(){$('.masthead').remove()});
 });
 SQ.controller("QuestionController", function ($scope, $http, $window, $location, $rootScope) {
   window.MY_SCOPE = $scope;
-
+  console.log($rootScope);
   // these variables are set by the API interface
   $scope.currentTitle = "loading...";
   $scope.currentQuestion = "<p>loading...</p>";
