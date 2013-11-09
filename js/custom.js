@@ -182,6 +182,14 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $scope.currentTags = [];
   }
 
+
+  $scope.tagClicked = function (tag) {
+    $rootScope.hasLoaded = false;
+    $rootScope.topic = tag;
+    $http.reload();
+  }
+
+
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
     //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
