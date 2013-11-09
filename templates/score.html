@@ -1,10 +1,11 @@
-<ul>
+<ul ng-init="go()">
   <li ng-repeat="s in scores" style="list-style:none;" class="ui grid">
     <div class="four wide column" ng-bind-html="s.tag">{{ s.tag }} </div>
     <div class="twelve wide column">
-      <div class="ui blue progress">
+      <div class="ui progress" ng-class="{red: s.score < 50, green: s.score >= 50}">
         <div class="bar" style="width:{{s.score}}%;"></div>
       </div>
     </div>  
   </li>
 </ul>
+<div ng-show="scores.length == 0" style="margin-bottom:15px;">Please fill out some questions to be scored.</div>
