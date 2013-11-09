@@ -16,7 +16,6 @@ document.onkeydown = function() {
     }
 };
 
-
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
 SQ.config(['$routeProvider', 
@@ -30,21 +29,50 @@ SQ.config(['$routeProvider',
       }).when("/", {
         templateUrl: "/templates/index.html",
         controller: "IndexController"
-      }).when("/results", {
-        templateUrl: '/templates/score.html',
-        controller: "ScoreController"
       }).otherwise({
         redirectTo: '/'
       });
     }]);
 
-SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
-  window.SCORE_SCOPE = $scope;
-  $scope.tags = $rootScope.tags;
-  $scope.scores = [];
-  $scope.go = function showResults() {
+SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
+  $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
+  $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
+  $scope.go = $rootScope.go;
+  function showAnswer(answers) {
+    $scope.currentQuestion = $rootScope.questions[$rootScope.currentQuestionId].body;
+    if (answers.length > 0) {
+      $scope.currentAnswer = answers[0].body;
+    }
+    else {
+      $scope.currentAnswer = '<p>no answers :(</p>';
+    }
+    $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
+  };
+
+  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    .success(function(data, status, headers, config) {
+             showAnswer(data['items']);
+    }).
+      error(function(data, status, headers, config) {
+             $window.alert('ERROR LOADING ANSWERS');
+    });
+});
+
+
+SQ.run(function($rootScope) {
+  $rootScope.hasLoaded = false;
+  $rootScope.currentQuestionId = -1;
+  $rootScope.questions = {};
+  $rootScope.tags = {};
+  $rootScope.topicTags = {};
+  $rootScope.topic = 'python';
+  $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
+  $rootScope.scores = [];
+
+  $rootScope.go = function showResults() {
+    var $scope = {};
     $scope.tags = $rootScope.tags;
-    $scope.scores = []
+    $rootScope.scores = []
     $scope.tags = $rootScope.tags;
 
     var singleScore = {}
@@ -68,7 +96,7 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
           'score':score,
           'tag': t
         };
-        $scope.scores.push(singleScore);
+        $rootScope.scores.push(singleScore);
       } else if ($scope.tags[t] < 0) {
         score = $scope.tags[t] * 100.0 / minScore / 2;
         score += 45;
@@ -76,31 +104,11 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
           'score':score,
           'tag': t
         };
-        $scope.scores.push(singleScore);
+        $rootScope.scores.push(singleScore);
       }
     }
+    $('.ui.modal').modal('setting', {easing: null, }).modal("show");
   }
-});
-SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
-  $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
-  $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
-  function showAnswer(answers) {
-    if (answers.length > 0) {
-      $scope.currentAnswer = answers[0].body;
-    }
-    else {
-      $scope.currentAnswer = '<p>no answers :(</p>';
-    }
-    $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
-  };
-
-  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-    .success(function(data, status, headers, config) {
-             showAnswer(data['items']);
-    }).
-      error(function(data, status, headers, config) {
-             $window.alert('ERROR LOADING ANSWERS');
-    });
 });
 
 SQ.run(function($rootScope) {
@@ -109,27 +117,64 @@ SQ.run(function($rootScope) {
   $rootScope.questions = {};
   $rootScope.tags = {};
   $rootScope.topic = 'python';
+  $rootScope.stackexchangeSite = 'stackoverflow.com';
 });
+
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
 SQ.controller("IndexController", function ($scope, $http, $window, $location, $rootScope) {
   
   TOPIC_SCOPE = $scope;
+
+  $('.ui.dropdown').dropdown();
   
   $scope.submitTopic = function () {
     //write to the external variable here
     $rootScope.topic = $scope.topic;
+    $rootScope.stackexchangeSite = $('div.menu > div.active').attr('data-value');
     $rootScope.hasLoaded = false;
     window.location = "#question";
   }
   $scope.topic = '';
+
+  $('.ui.dropdown').dropdown({
+          onChange: function(value) {
+            $scope.updateTags(value);
+          }
+        });
+
   $rootScope.$on('$locationChangeStart',function(){$('.masthead').remove()});
+
+  //gets all the tags
+  $scope.getTags = function(newTags) {
+    $scope.search_placeholder = '';
+    for(t in newTags)
+    {
+      console.log(newTags[t].name);
+      $rootScope.topicTags[newTags[t].name] = 0;
+      $scope.search_placeholder += newTags[t].name + ', ';
+    }
+  };
+
+  $scope.updateTags = function(site) {
+    //get all tags
+    $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=20&order=desc&sort=popular&site=' + site + '&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+      .success(function(data, status, headers, config) {
+               $scope.getTags(data['items']);
+      }).
+        error(function(data, status, headers, config) {
+               $window.alert('ERROR LOADING TAGS');
+      });
+  }
+
+  $scope.updateTags('stackoverflow.com');  
 });
 
 SQ.controller("QuestionController", function ($scope, $http, $window, $route, $location, $rootScope) {
   window.MY_SCOPE = $scope;
   
+  $scope.go = $rootScope.go;
   // these variables are set by the API interface
   if (!$rootScope.hasLoaded) {
     $scope.currentTitle = "loading...";
@@ -158,6 +203,12 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
   
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
+    if (newQuestions.length == 0) {
+      $window.alert("oops - no results for that!");
+      $location.path('/index');
+    }
+
+
     //add any new tags
     for (q in newQuestions){
       question = newQuestions[q];
@@ -201,11 +252,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
 
     if (topQuestion == undefined) {
       $rootScope.hasLoaded = false;
-      $window.alert('reloading!');
       $route.reload();
-    }
-    else {
-      $window.alert("Q's: " + topQuestion);
     }
 
     // fill in new values for title, question, stackOverflowUrl
@@ -243,7 +290,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $rootScope.question = true;
 
     // load the data for the 'python' stackoverflow questions
-    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=' + $rootScope.topic + '&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&sort=votes&tagged=' + $rootScope.topic + '&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
       .success(function(data, status, headers, config) {
                      processNewlyFetchedQuestions(data['items']);
             }).

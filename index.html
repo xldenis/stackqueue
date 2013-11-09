@@ -1,8 +1,10 @@
 
 <html ng-app="stackQueueCtrl">
 <head>
-  <link rel="stylesheet" type="text/css" href=" css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href=" http://semantic-ui.com/build/packaged/css/semantic.css">
+
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+    <script type="text/javascript" src="http://semantic-ui.com/build/packaged/javascript/semantic.js" ></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
   <script type="text/javascript" src="http://code.angularjs.org/1.2.0/angular-route.min.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
@@ -10,7 +12,15 @@
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="http://yandex.st/highlightjs/7.4/styles/default.min.css">
+
   <script src="http://yandex.st/highlightjs/7.4/highlight.min.js"></script>
+  <!--modal-->
+  <link rel="stylesheet" href="css/modal.min.css" type="text/css">
+  <script src="js/modal.min.js" type="text/javascript"></script>
+  <!--dimmer is reqd-->
+  <link rel="stylesheet" href="css/dimmer.min.css" type="text/css">
+  <script src="js/dimmer.min.js" type="text/javascript"></script>
+  <!--End modal-->
   <script>hljs.initHighlightingOnLoad();</script>
   <title> Stack Queue </title>
 </head>
@@ -19,6 +29,8 @@
       <div class="title item"><a href="/" style="text-decoration:none;">STACKQ</a></div>
       <div class="right menu">
         <div class="vertically fitted borderless item">
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://stackq.herokuapp.com" data-text="StackQ: know what you don't know" data-via="yalehack" data-count="none" data-hashtags="yalehack">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
           <iframe src="http://ghbtns.com/github-btn.html?user=xldenis&amp;repo=stackqueue&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
         </div>
         <a class="popup icon github item" title="View project on Github" href="https://github.com/xldenis/stackqueue">
@@ -42,6 +54,22 @@
     <section class="column ui segment" ng-view style="margin-top:30px;margin-bottom:30px;"></section>
     <section class="column"></section>
 </div>
-
+<div class="ui modal" style="position:absolute;top:135px;height:600px;overflow-y:scroll;">
+  <i class="close icon"></i>
+  <div class="header">Your Strengths and Weaknesses...</div>
+  <div class="content">
+    <ul>
+      <li ng-repeat="s in scores" style="list-style:none;" class="ui grid">
+        <div class="four wide column" ng-bind-html="s.tag">{{ s.tag }} </div>
+        <div class="twelve wide column">
+          <div class="ui progress" ng-class="{red: s.score < 50, green: s.score >= 50}">
+            <div class="bar" style="width:{{s.score}}%;"></div>
+          </div>
+        </div>  
+      </li>
+    </ul>
+    <div ng-show="scores.length == 0" style="margin-bottom:15px;">Please fill out some questions to be scored.</div>
+  </div>
+</div>
 </body>
 </html>
