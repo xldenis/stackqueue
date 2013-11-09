@@ -36,7 +36,7 @@ window.MY_SCOPE = $scope;
   $scope.test = [];
   $scope.question = true; //Boolean flag on whether we are showing a question or answer.
 
-  $scope.currentTitle = "The Python yield keyword explained";
+  $scope.currentTitle = "";
   $scope.currentQuestion = "";
   $scope.stackOverflowUrl = "http://stackoverflow.com";
   
