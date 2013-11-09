@@ -14,19 +14,21 @@
   <body>
 
   <article>
-    <h3> {{title}} </h3>
+    <h3 class="ui header"> {{title}} </h3>
+    <div class="ui basic segment">
     {{question content}}
+    </div>
   </article>
 
-  <span>
-    <button> Yes </button>
-    <button> Skip</button>
-    <button> No </button>
+  <div class="ui buttons">
+    <div class="ui green button"> Yes </div>
+    <div class="ui  button"> Skip</div>
+    <div class="ui red button"> No </div>
   </span>
 
-  <span>
-    <button> Next Question </button>
-    <button> Learn More </button>
+  <div class="ui buttons">
+    <div class="ui green button"> Next Question </div>
+    <div class="ui  button"> Learn More </div>
   </span>
   
 </body>
