@@ -1,14 +1,22 @@
-<h2> ANSWER </h2>
-<h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
-<article ng-show="question">
-	<div class = "ui labels" >
-  	<div class="ui red ribbon label">Tags:</div>
-    <div class="ui label" ng-repeat="t in currentTag">{{ tag }}</div> 
-  	</div>
-  <div class="ui basic segment" ng-bind-html="currentAnswer"></div>
-  <span class="ui buttons" >
-    <a href="{{learnMoreLink}}" target="_blank"><div class="ui  button"> Learn More </div></a>
-    <a href='#question'><div class="ui green button"> Next Question </div></a>
 
-  </span>
-</article>
+<div class="ui grid">
+
+<section class="ui fifteen wide column ">
+  <h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
+  <article>
+    <div class = "ui labels" >
+    <div class="ui red ribbon label">Tags:</div>
+    <div class="ui label" ng-repeat="t in currentTag">{{ tag }}</div> 
+    </div>
+    <div class="ui basic segment" ng-bind-html="currentAnswer"></div>
+    <span class="ui buttons" >
+      <a href="{{learnMoreLink}}" target="_blank"><div class="ui  button"> Learn More </div></a>
+      <a href='#question'><div class="ui green button"> Next Question </div></a>
+
+    </span>
+  </article>
+</section>
+<section class="ui one wide column">
+  <div class="ui label fixed">test </div>
+</section>
+</div>
