@@ -37,14 +37,15 @@ window.MY_SCOPE = $scope;
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
 
-    
-    for(t in newQuestions.tags) {
-      if(tags[t] == undefined)
-      {
-        questions.tags[t] = 0;
+    for (q in newQuestions){
+      question = newQuestions[q];
+      for (t in question.tags) {
+        tag = question.tags[t];
+        if($scope.tags[tag] == undefined)
+        {
+          $scope.tags[tag] = 0;
+        } 
       }
-      $scope.tags.push(t);
-
     }
 
   	//add new questions
