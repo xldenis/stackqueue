@@ -8,10 +8,17 @@ SQ.config(['$routeProvider',
       }).when("/answer", {
         templateUrl: '/templates/answer.html',
         controller: 'AnswerController'
+      }).when("/", {
+        templateUrl: "/templates/index.html",
+        controller: "IndexController"
       }).otherwise({
         redirectTo: 'index.html'
       });
     }]);
+
+SQ.controller("IndexController", function ($scope, $http, $window) {
+  $scope.nothing = 0;
+});
 SQ.controller("AnswerController", function ($scope, $http, $window) {
   $scope.nothing = 0;
 });
