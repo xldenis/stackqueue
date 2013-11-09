@@ -8,6 +8,9 @@
     <div class="ui red ribbon label left">Tags:</div>
     <div class="ui label" ng-repeat="t in tags">{{ t }}</div> 
     </div>
+    <div class=" ui basic segment" ng-bind-html="currentQuestion"></div>
+    <hr/>
+    <h3>Answer:</h3>
     <div class=" ui basic segment" ng-bind-html="currentAnswer"></div>
     <span class="bottom attached 2 fluid ui labeled icon basic buttons" >
       <a class="ui  button" target="_blank" href="{{learnMoreLink}}"> Learn More <i class="inverted left red icon"></i></a>

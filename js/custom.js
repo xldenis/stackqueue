@@ -39,6 +39,7 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
   $scope.go = $rootScope.go;
   function showAnswer(answers) {
+    $scope.currentQuestion = $rootScope.questions[$rootScope.currentQuestionId].body;
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
     }
@@ -48,7 +49,7 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
     $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
   };
 
-  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
     .success(function(data, status, headers, config) {
              showAnswer(data['items']);
     }).
@@ -139,7 +140,7 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
 
   $('.ui.dropdown').dropdown({
           onChange: function(value) {
-            chatScope.
+            $scope.updateTags(value);
           }
         });
 
@@ -147,21 +148,27 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
 
   //gets all the tags
   $scope.getTags = function(newTags) {
+    $scope.search_placeholder = '';
     for(t in newTags)
     {
       console.log(newTags[t].name);
       $rootScope.topicTags[newTags[t].name] = 0;
+      $scope.search_placeholder += newTags[t].name + ', ';
     }
   };
 
-  //get all tags
-  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=20&order=desc&sort=popular&site=' + $rootScope.stackexchangeSite + '&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-    .success(function(data, status, headers, config) {
-             $scope.getTags(data['items']);
-    }).
-      error(function(data, status, headers, config) {
-             $window.alert('ERROR LOADING TAGS');
-    });
+  $scope.updateTags = function(site) {
+    //get all tags
+    $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=20&order=desc&sort=popular&site=' + site + '&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+      .success(function(data, status, headers, config) {
+               $scope.getTags(data['items']);
+      }).
+        error(function(data, status, headers, config) {
+               $window.alert('ERROR LOADING TAGS');
+      });
+  }
+
+  $scope.updateTags('stackoverflow.com');  
 });
 
 SQ.controller("QuestionController", function ($scope, $http, $window, $route, $location, $rootScope) {
