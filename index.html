@@ -7,27 +7,28 @@
   <script type="text/javascript" src="custom.js"></script>
   <script type="text/javascript" src="https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=processResponse"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+  <title> Stack Queue </title>
 </head>
 <body ng-controller="stackQueueCtrl">
   <div  class="ui one column page grid">
     <div class="column">
       <article>
-        <h3 class="ui header"> {{title}} </h3>
+        <h2 class="ui header"> {{title}} </h3>
         <div class="ui segment">
           {{ question }}
         </div>
       </article>
 
-      <div class="ui buttons">
-        <div class="ui green button"> Yes </div>
-        <div class="ui  button"> Skip</div>
-        <div class="ui red button"> No </div>
-      </span>
+      <!-- <div class="ui labeled icon buttons"> -->
+        <div class="ui labeled icon button"> <i class="smile icon"></i>Yes </div>
+        <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
+        <div class="ui labeled icon button"><i class="frown icon"></i> No </div>
+      <!-- </div> -->
 
       <div class="ui buttons">
         <div class="ui green button"> Next Question </div>
         <div class="ui  button"> Learn More </div>
-      </span>
+      </div>
     </div>
   </div>
 </body>
