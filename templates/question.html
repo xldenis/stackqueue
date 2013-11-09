@@ -8,9 +8,9 @@
       </div>
       <div class="ui attached basic segment clear " ng-bind-html="currentQuestion"> </div>
       <span class="bottom attached 3 fluid ui labeled icon basic buttons">
-       <div class="ui button" ng-click="questionNotKnown()"><i class="inverted left red icon"></i> Answer </div>
-       <div class="ui button" ng-click="getNewQuestion()"> <i class="inverted up black icon"></i>Skip</div>
-       <div class="ui right labeled icon button" ng-click="questionKnown()"> <i class="inverted right green icon"></i>Next Question </div>
+       <div id="LeftKey" class="ui button" ng-click="questionNotKnown()"><i class="inverted left red icon"></i> Answer </div>
+       <div id="UpDownKey" class="ui button" ng-click="getNewQuestion()"> <i class="inverted up black icon"></i>Skip</div>
+       <div id="RightKey" class="ui right labeled icon button" ng-click="questionKnown()"> <i class="inverted right green icon"></i>Next Question </div>
 
      </span>
    </article>

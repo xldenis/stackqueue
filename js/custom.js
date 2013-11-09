@@ -1,3 +1,22 @@
+//handle key presses
+document.onkeydown = function() {
+    switch (window.event.keyCode) {
+        case 37:
+            $("#LeftKey").click();
+            break;
+        case 38:
+            $("#UpDownKey").click();
+            break;
+        case 39:
+            $("#RightKey").click();
+            break;
+        case 40:
+            $("#UpDownKey").click();
+            break;
+    }
+};
+
+
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
 SQ.config(['$routeProvider', 
