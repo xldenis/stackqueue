@@ -22,11 +22,12 @@ function stackQueueCtrl($scope, $http, $window) {
 			questions[q.question_id] = q;
   		}
   	}
-  	$window.alert(questions);
+  	$scope.getNewQuestion();
   };
 
   $scope.getNewQuestion = function() {
-  	//compute best 
+  	//compute best question
+  	
 
 
     // fill in new values for title, question, tags, stackOverflowUrl
