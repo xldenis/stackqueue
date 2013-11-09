@@ -1,7 +1,7 @@
 <div class="ui grid">
   <section class="ui fourteen wide column">
     <h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
-    <article ng-show="question">
+    <article>
       <div class = "ui labels" >
         <div class="ui red ribbon label left">Tags:</div>
         <div class="ui label" ng-repeat="tag in currentTags">{{ tag }}</div> 
@@ -15,7 +15,7 @@
      </span>
    </article>
  </section>
- <section class="ui right floated two wide column">
-  <div class="ui label fixed">Results</div>
+ <section class="ui right floated one wide column">
+  <a class="ui label teal" href="#results" style="text-decoration:none;">Score</a>
 </section>
 </div>

@@ -2,11 +2,25 @@
   <div class="ui red ribbon label">Start now!</div>
 </div>
 <div class="container">
-  <h1> What topic do want to learn about? </h1>
-  <div class="ui fluid input">
-    <form ng-submit="submitTopic();" style="text-align:center;">
-      <input ng-model="topic" class="clear" type="text" placeholder="Python, Javascript, CSS" style="margin-bottom:10px;">
-      <input type="submit" class="ui blue button" value="LEARN!" style="width:60%;">
-    </form>
+<h1 style="float: left;">I want to learn about...
+</h1>
+
+
+
+<div class="ui fluid input">
+  <div class="ui dropdown">
+  <div class="select"> Select </div>  
+  <i class="dropdown icon"></i>
+	<div class="menu">
+	  <div class="item" data-value="stackoverflow.com">stackoverflow</div>
+	  <div class="item" data-value="superuser.com">superuser</div>
+	  <div class="item" data-value="gaming.stackexchange.com">Arqade</div>
+	  <div class="item" data-value="english.stackexchange.com">English Language</div>
+	  <div class="item" data-value="math.stackexchange.com">Mathematics</div>
+	  <div class="item" data-value="movies.stackexchange.com">Movies & TV</div>
+	  <div class="item" data-value="boardgames.stackexchange.com">Board & Card Games</div>
+	  <div class="item" data-value="answers.onstartups.com">Answers OnStartups</div>
+	</div>
   </div>
+</div>
 </div>

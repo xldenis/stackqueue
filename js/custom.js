@@ -33,12 +33,57 @@ SQ.config(['$routeProvider',
       }).when("/", {
         templateUrl: "/templates/index.html",
         controller: "IndexController"
+      }).when("/results", {
+        templateUrl: '/templates/score.html',
+        controller: "ScoreController"
       }).otherwise({
         redirectTo: '/'
       });
     }]);
 
+SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
+  window.SCORE_SCOPE = $scope;
+  $scope.tags = $rootScope.tags;
+  $scope.scores = [];
+  $scope.go = function showResults() {
+    $scope.tags = $rootScope.tags;
+    $scope.scores = []
+    $scope.tags = $rootScope.tags;
 
+    var singleScore = {}
+    var maxScore = -10000000;
+    var minScore = 10000000;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] > maxScore)
+        maxScore = $scope.tags[t];
+      if ($scope.tags[t] < minScore) {
+        minScore = $scope.tags[t];
+      }
+    }
+    var score = 0;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] == 0){
+
+      } else if ($scope.tags[t] > 0) {
+        score = $scope.tags[t] * 100.0 / maxScore / 2;
+        score = 55 - score;
+        singleScore = {
+          'score':score,
+          'tag': t
+        };
+        $scope.scores.push(singleScore);
+      } else if ($scope.tags[t] < 0) {
+        score = $scope.tags[t] * 100.0 / minScore / 2;
+        score += 45;
+        singleScore = {
+          'score':score,
+          'tag': t
+        };
+        $scope.scores.push(singleScore);
+      }
+    }
+  }
+});
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
@@ -61,22 +106,20 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
     });
 });
 
-
 SQ.run(function($rootScope) {
   $rootScope.hasLoaded = false;
   $rootScope.currentQuestionId = -1;
   $rootScope.questions = {};
   $rootScope.tags = {};
-  $rootScope.topicTags = {};
   $rootScope.topic = 'python';
-  $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
-
 });
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
 SQ.controller("IndexController", function ($scope, $http, $window, $location, $rootScope) {
+  
   TOPIC_SCOPE = $scope;
+  
   $scope.submitTopic = function () {
     //write to the external variable here
     $rootScope.topic = $scope.topic;
@@ -86,35 +129,30 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   $scope.topic = '';
   $rootScope.$on('$locationChangeStart',function(){$('.masthead').remove()});
 });
-SQ.controller("QuestionController", function ($scope, $http, $window, $location, $rootScope) {
+
+SQ.controller("QuestionController", function ($scope, $http, $window, $route, $location, $rootScope) {
   window.MY_SCOPE = $scope;
-  console.log($rootScope);
-  // these variables are set by the API interface
-  $scope.currentTitle = "loading...";
-  $scope.currentQuestion = "<p>loading...</p>";
-  $scope.currentTags = [];
   
+  // these variables are set by the API interface
+  if (!$rootScope.hasLoaded) {
+    $scope.currentTitle = "loading...";
+    $scope.currentQuestion = "<p>loading...</p>";
+    $scope.currentTags = [];
+  }
+
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
-          //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
-          for (q in $rootScope.questions) {
-                  question = $rootScope.questions[q];
-                  if (question.asked == false) {
-                          avgTagScore = 0.0;
-                          count = 0;
-                          for (tag in question.tags)
-                                  avgTagScore += $rootScope.tags[question.tags[tag]];
-                          avgTagScore /= question.tags.length;
-                          $rootScope.questions[q].ourScore = (avgTagScore * 10000) + question.score
-                  }
-          }
-  };
-
-  //gets all the tags
-  function getTags(newTags) {
-    for(t in newTags)
-    {
-      $rootScope.topicTags[newTags[t].name] = 0;
+    //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
+    for (q in $rootScope.questions) {
+            question = $rootScope.questions[q];
+            if (question.asked == false) {
+                    avgTagScore = 0.0;
+                    count = 0;
+                    for (tag in question.tags)
+                            avgTagScore += $rootScope.tags[question.tags[tag]];
+                    avgTagScore /= question.tags.length;
+                    $rootScope.questions[q].ourScore = (avgTagScore * 10000) + question.score
+            }
     }
   };
 
@@ -144,6 +182,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   };
 
   $scope.getNewQuestion = function() {
+
     //update scores
     updateAllUnansweredQuestionScores();
 
@@ -158,6 +197,15 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
                             topQuestion = question;
                     }
             }
+    }
+
+    if (topQuestion == undefined) {
+      $rootScope.hasLoaded = false;
+      $window.alert('reloading!');
+      $route.reload();
+    }
+    else {
+      $window.alert("Q's: " + topQuestion);
     }
 
     // fill in new values for title, question, stackOverflowUrl
@@ -188,11 +236,10 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
     $location.path( "/answer" );
   };
 
-  if (true) {
+  if (!$rootScope.hasLoaded) {
     $rootScope.currentQuestionId = -1;
     $rootScope.questions = {};
     $rootScope.tags = {};
-    $rootScope.topicTags = {};
     $rootScope.question = true;
 
     // load the data for the 'python' stackoverflow questions
@@ -203,16 +250,10 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
         error(function(data, status, headers, config) {
                      $window.alert('ERROR LOADING QUESTIONS');
             });
-
-    $rootScope.hasLoaded = true;
+  }
+  else {
+    $scope.getNewQuestion();
   }
 
-  //get all tags
-  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-    .success(function(data, status, headers, config) {
-             getTags(data['items']);
-    }).
-      error(function(data, status, headers, config) {
-             $window.alert('ERROR LOADING DATA');
-    });
+  $rootScope.hasLoaded = true;
 });
