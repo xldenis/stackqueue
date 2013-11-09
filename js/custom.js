@@ -298,7 +298,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $rootScope.question = true;
 
     // load the data for the 'python' stackoverflow questions
-    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&sort=votes&tagged=' + $rootScope.topic + '&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&sort=votes&tagged=' + encodeURIComponent($rootScope.topic) + '&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
       .success(function(data, status, headers, config) {
                      processNewlyFetchedQuestions(data['items']);
             }).
