@@ -32,6 +32,8 @@ function stackQueueCtrl($scope, $http, $window) {
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
+
+    
     for(t in newQuestions.tags) {
       tags.push(t);
     }
