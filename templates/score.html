@@ -1,4 +1,4 @@
-<ul>
+<ul ng-init="go()">
   <li ng-repeat="s in scores" style="list-style:none;" class="ui grid">
     <div class="four wide column" ng-bind-html="s.tag">{{ s.tag }} </div>
     <div class="twelve wide column">
@@ -8,3 +8,4 @@
     </div>  
   </li>
 </ul>
+<div ng-show="scores.length == 0" style="margin-bottom:15px;">Please fill out some questions to be scored.</div>

@@ -44,6 +44,8 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
   $scope.scores = [];
   $scope.go = function showResults() {
     $scope.tags = $rootScope.tags;
+    $scope.scores = []
+    $scope.tags = $rootScope.tags;
 
     var singleScore = {}
     var maxScore = -10000000;
@@ -55,8 +57,6 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
         minScore = $scope.tags[t];
       }
     }
-    console.log("Min: " + minScore);
-    console.log("Max: " + maxScore);
     var score = 0;
     for (t in $scope.tags) {
       if ($scope.tags[t] == 0){
@@ -75,8 +75,8 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
         singleScore = {
           'score':score,
           'tag': t
-        }
-        $scope.scores.push(singleScore)
+        };
+        $scope.scores.push(singleScore);
       }
     }
   }
