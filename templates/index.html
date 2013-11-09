@@ -1,6 +1,9 @@
 <div class="container">
 <h1> What topic do want to learn about? </h1>
 <div class="ui fluid input">
-  <input class="clear" type="text" placeholder="Python,JS,CSS">
+  <form ng-submit="submitTopic();">
+    <input mg-model="topic" class="clear" type="text" placeholder="Python,JS,CSS" style="margin-bottom:10px;">
+    <input type="submit" class="ui blue button">
+  </form>
 </div>
 </div>

@@ -17,23 +17,28 @@ SQ.config(['$routeProvider',
     }]);
 
 SQ.controller("IndexController", function ($scope, $http, $window) {
-  $scope.nothing = 0;
+  TOPIC_SCOPE = $scope;
+  $scope.topic = "";
+  $scope.submitTopic = function () {
+    //write to the external variable here
+    window.location = "#question";
+  }
 });
-SQ.controller("AnswerController", function ($scope, $http, $window, sharedProperties) {
-  $scope.nothing = 0;//show correct answer
+SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
+  $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
+  $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
 
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
     }
     else {
-      $scope.currentAnswer = 'no answers :(';
+      $scope.currentAnswer = '<p>no answers :(</p>';
     }
   };
 
-  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + sharedProperties.getCurrentQuestionId() + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
     .success(function(data, status, headers, config) {
-      $scope.test = data;
              showAnswer(data['items']);
     }).
       error(function(data, status, headers, config) {
@@ -42,46 +47,38 @@ SQ.controller("AnswerController", function ($scope, $http, $window, sharedProper
 });
 
 
-SQ.service('sharedProperties', function () {
-        var currentQuestionId = -1;
-        return {
-            getCurrentQuestionId: function () {
-                return currentQuestionId;
-            },
-            setCurrentQuestionId: function(value) {
-                currentQuestionId = value;
-            }
-        };
-    });
+SQ.run(function($rootScope) {
+  $rootScope.currentQuestionId = -1;
+  $rootScope.questions = {};
+  $rootScope.tags = {};
+  $rootScope.topicTags = {};
+  $rootScope.topic = 'python';
+  $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
+
+});
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
-SQ.controller("QuestionController", function ($scope, $http, $window, sharedProperties) {
+SQ.controller("QuestionController", function ($scope, $http, $window, $location, $rootScope) {
   window.MY_SCOPE = $scope;
-  // these variables are set by the API interface
-  $scope.questions = {};
-  $scope.tags = {};
-  $scope.topicTags = {};
-  $scope.topic = 'python';
-  $scope.test = [];
-  $scope.question = true; //Boolean flag on whether we are showing a question or answer.
 
+  // these variables are set by the API interface
   $scope.currentTitle = "The Python yield keyword explained";
   $scope.currentQuestion = "<p>placeholder...</p>";
-  $scope.stackOverflowUrl = "http://stackoverflow.com";
+  $scope.currentTags = [];
   
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
           //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
-          for (q in $scope.questions) {
-                  question = $scope.questions[q];
+          for (q in $rootScope.questions) {
+                  question = $rootScope.questions[q];
                   if (question.asked == false) {
                           avgTagScore = 0.0;
                           count = 0;
                           for (tag in question.tags)
-                                  avgTagScore += $scope.tags[question.tags[tag]];
+                                  avgTagScore += $rootScope.tags[question.tags[tag]];
                           avgTagScore /= question.tags.length;
-                          $scope.questions[q].ourScore = (avgTagScore * 10000) + question.score
+                          $rootScope.questions[q].ourScore = (avgTagScore * 10000) + question.score
                   }
           }
   };
@@ -91,7 +88,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
     for(t in newTags)
     {
       console.log(newTags[t].name);
-      $scope.topicTags[newTags[t].name] = 0;
+      $rootScope.topicTags[newTags[t].name] = 0;
     }
   };
 
@@ -102,22 +99,22 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
       question = newQuestions[q];
       for (t in question.tags) {
         tag = question.tags[t];
-        if($scope.tags[tag] == undefined)
-          $scope.tags[tag] = 0;
+        if($rootScope.tags[tag] == undefined)
+          $rootScope.tags[tag] = 0;
       }
     }
 
-          //add new questions
-          for (q in newQuestions) {
-                  question = newQuestions[q];
-                  question.question_id = new String(question.question_id);
-                  if ($scope.questions[question.question_id] == undefined) {
-                          question.asked = false;
-                          question.ourScore = -1; //not calculated yet
-                          $scope.questions[question.question_id] = question;
-                  }
-          }
-          $scope.getNewQuestion();
+    //add new questions
+    for (q in newQuestions) {
+            question = newQuestions[q];
+            question.question_id = new String(question.question_id);
+            if ($rootScope.questions[question.question_id] == undefined) {
+                    question.asked = false;
+                    question.ourScore = -1; //not calculated yet
+                    $rootScope.questions[question.question_id] = question;
+            }
+    }
+    $scope.getNewQuestion();
   };
 
   $scope.getNewQuestion = function() {
@@ -126,9 +123,9 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
 
           //compute best question
           maxScore = -10000000;
-          topQuestion = $scope.questions[0];
-          for (q in $scope.questions) {
-                  question = $scope.questions[q];
+          topQuestion = $rootScope.questions[0];
+          for (q in $rootScope.questions) {
+                  question = $rootScope.questions[q];
                   if (question.asked == false) {
                           if (question.ourScore > maxScore) {
                                   maxScore = question.ourScore;
@@ -138,29 +135,29 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
           }
 
           // fill in new values for title, question, stackOverflowUrl
-          sharedProperties.setCurrentQuestionId(topQuestion.question_id);
+          $rootScope.currentQuestionId = topQuestion.question_id;
           $scope.currentTitle = topQuestion.title;
           $scope.currentQuestion = topQuestion.body;
-          $scope.stackOverflowUrl = topQuestion.link;
+          $scope.currentTags = topQuestion.tags;
 
-          $scope.questions[sharedProperties.getCurrentQuestionId()].asked = true;
+          $rootScope.questions[$rootScope.currentQuestionId].asked = true;
   };
 
-  $scope.questionKnown = function () {
+  $rootScope.questionKnown = function () {
 
     //if the answer is known, demote the tags
-    for (var i = 0; i < $scope.questions[sharedProperties.getCurrentQuestionId()].tags.length; i++){
-      $scope.tags[$scope.questions[sharedProperties.getCurrentQuestionId()].tags[i]]--;
+    for (var i = 0; i < $rootScope.questions[$rootScope.currentQuestionId].tags.length; i++){
+      $rootScope.tags[$rootScope.questions[$rootScope.currentQuestionId].tags[i]]--;
     }
 
     //now go and get a new question
     $scope.getNewQuestion();
   };
 
-  $scope.questionNotKnown = function () {
+  $rootScope.questionNotKnown = function () {
     //if the answer is not known, promote the tags
-    for(var i = 0; i < $scope.questions[sharedProperties.getCurrentQuestionId()].tags.length; i++){
-      $scope.tags[$scope.questions[sharedProperties.getCurrentQuestionId()].tags[i]]++;
+    for(var i = 0; i < $rootScope.questions[$rootScope.currentQuestionId].tags.length; i++){
+      $rootScope.tags[$rootScope.questions[$rootScope.currentQuestionId].tags[i]]++;
     }
 
     $location.path( "/answer" );
@@ -169,7 +166,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
   // load the data for the 'python' stackoverflow questions
   $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
           .success(function(data, status, headers, config) {
-                  $scope.test = data;
                          processNewlyFetchedQuestions(data['items']);
                 }).
             error(function(data, status, headers, config) {
@@ -179,7 +175,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, sharedProp
   //get all tags
   $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
     .success(function(data, status, headers, config) {
-      $scope.test = data;
              getTags(data['items']);
     }).
       error(function(data, status, headers, config) {
