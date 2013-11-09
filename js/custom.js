@@ -203,11 +203,11 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   }
 
   //get all tags
-  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-    .success(function(data, status, headers, config) {
-             getTags(data['items']);
-    }).
-      error(function(data, status, headers, config) {
-             $window.alert('ERROR LOADING DATA');
-    });
+  // $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+  //   .success(function(data, status, headers, config) {
+  //            getTags(data['items']);
+  //   }).
+  //     error(function(data, status, headers, config) {
+  //            $window.alert('ERROR LOADING DATA');
+  //   });
 });

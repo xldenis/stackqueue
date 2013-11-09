@@ -2,10 +2,23 @@
   <div class="ui red ribbon label">Start now!</div>
 </div>
 <div class="container">
-<h1> What topic do want to learn about? </h1>
+<h1>From
+	<div class="ui simple dropdown item">
+      stackoverflow <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item">stackoverflow</div>
+        <div class="item">Choice 2</div>
+        <div class="item">Choice 3</div>
+      </div>
+    </div>
+	I want to learn about...
+</h1>
+
 <div class="ui fluid input">
   <form ng-submit="submitTopic();" style="text-align:center;">
-    <input ng-model="topic" class="clear" type="text" placeholder="Python, Javascript, CSS" style="margin-bottom:10px;">
+
+
+    <input ng-model="topic" class="clear" type="text" id='topic' placeholder="Python, Javascript, CSS" style="margin-bottom:10px;">
     <input type="submit" class="ui blue button" value="LEARN!" style="width:60%;">
   </form>
 </div>
