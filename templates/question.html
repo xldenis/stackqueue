@@ -6,7 +6,7 @@
         <div class="ui red ribbon label left">Tags:</div>
         <div class="ui label" ng-repeat="tag in currentTags">{{ tag }}</div> 
       </div>
-      <div class="ui attached basic segment clear " ng-bind-html="currentQuestion"> </div>
+      <div class="ui attached basic segment clear " style="padding-top: 5px; margin-top: 10px; margin-bottom: 10px;" ng-bind-html="currentQuestion"> </div>
       <span class="bottom attached 3 fluid ui labeled icon basic buttons">
        <div id="LeftKey" class="ui button" ng-click="questionNotKnown()"><i class="inverted left red icon"></i> Show me the answer. </div>
        <div id="UpDownKey" class="ui button" ng-click="getNewQuestion()"> <i class="inverted up black icon"></i>Skip this subject.</div>
