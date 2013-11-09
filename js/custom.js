@@ -16,10 +16,6 @@ document.onkeydown = function() {
     }
 };
 
-// $('.ui.dropdown')
-//   .dropdown()
-// ;
-
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
 SQ.config(['$routeProvider', 
@@ -129,6 +125,8 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
     window.location = "#question";
   }
   $scope.topic = '';
+  $('.ui.dropdown').dropdown();
+
   $rootScope.$on('$locationChangeStart',function(){$('.masthead').remove()});
 });
 
