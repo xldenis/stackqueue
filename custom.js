@@ -1,8 +1,4 @@
-function processResponse(data) {
-	alert(data['items']);
-}
-
-function stackQueueCtrl($scope) {
+function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
   $scope.title = "This is the title";
@@ -46,4 +42,13 @@ function stackQueueCtrl($scope) {
     //get the answer
   }
 
-}
+    // load the data for the 'python' stackoverflow questions
+    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=JSON_CALLBACK')
+	  .success(function(data, status, headers, config) {
+	    	     $window.alert(data.items);
+		}).
+	    error(function(data, status, headers, config) {
+	    	     $window.alert('ERROR LOADING DATA');
+		});
+
+};
