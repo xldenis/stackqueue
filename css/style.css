@@ -39,9 +39,12 @@ h1,h2,h3,h4,h5,h6 {
   line-height: 1.2;
   margin: -20px 0px 0px;
   padding-bottom: 0px;
-
+}
 .ui.label.fixed {
   position: fixed;
+}
+.ui.ribbon.label.left {
+  left: -2.3rem;
 }
 .ui.segment.attached.clear {
   -webkit-box-shadow: none;
