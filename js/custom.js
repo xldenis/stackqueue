@@ -76,7 +76,6 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   $scope.submitTopic = function () {
     //write to the external variable here
     $rootScope.topic = $scope.topic;
-    $window.alert($scope.topic);
     $rootScope.hasLoaded = false;
     window.location = "#question";
   }
@@ -116,7 +115,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
 
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
-          //add any new tags
+    //add any new tags
     for (q in newQuestions){
       question = newQuestions[q];
       for (t in question.tags) {
@@ -140,33 +139,32 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   };
 
   $scope.getNewQuestion = function() {
-          //update scores
-          updateAllUnansweredQuestionScores();
+    //update scores
+    updateAllUnansweredQuestionScores();
 
-          //compute best question
-          maxScore = -10000000;
-          topQuestion = $rootScope.questions[0];
-          for (q in $rootScope.questions) {
-                  question = $rootScope.questions[q];
-                  if (question.asked == false) {
-                          if (question.ourScore > maxScore) {
-                                  maxScore = question.ourScore;
-                                  topQuestion = question;
-                          }
-                  }
-          }
+    //compute best question
+    maxScore = -10000000;
+    topQuestion = $rootScope.questions[0];
+    for (q in $rootScope.questions) {
+            question = $rootScope.questions[q];
+            if (question.asked == false) {
+                    if (question.ourScore > maxScore) {
+                            maxScore = question.ourScore;
+                            topQuestion = question;
+                    }
+            }
+    }
 
-          // fill in new values for title, question, stackOverflowUrl
-          $rootScope.currentQuestionId = topQuestion.question_id;
-          $scope.currentTitle = topQuestion.title;
-          $scope.currentQuestion = topQuestion.body;
-          $scope.currentTags = topQuestion.tags;
+    // fill in new values for title, question, stackOverflowUrl
+    $rootScope.currentQuestionId = topQuestion.question_id;
+    $scope.currentTitle = topQuestion.title;
+    $scope.currentQuestion = topQuestion.body;
+    $scope.currentTags = topQuestion.tags;
 
-          $rootScope.questions[$rootScope.currentQuestionId].asked = true;
+    $rootScope.questions[$rootScope.currentQuestionId].asked = true;
   };
 
   $rootScope.questionKnown = function () {
-
     //if the answer is known, demote the tags
     for (var i = 0; i < $rootScope.questions[$rootScope.currentQuestionId].tags.length; i++){
       $rootScope.tags[$rootScope.questions[$rootScope.currentQuestionId].tags[i]]--;
@@ -185,11 +183,12 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
     $location.path( "/answer" );
   };
 
-  if (!$rootScope.hasLoaded) {
+  if (true) {
     $rootScope.currentQuestionId = -1;
     $rootScope.questions = {};
     $rootScope.tags = {};
     $rootScope.topicTags = {};
+    $rootScope.question = true;
 
     // load the data for the 'python' stackoverflow questions
     $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=' + $rootScope.topic + '&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
