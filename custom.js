@@ -3,7 +3,7 @@ angular.module('stackQueueCtrl', ['ngSanitize']);
 chatScope = angular.element(document.getElementById('body')).scope();
 
 function stackQueueCtrl($scope, $http, $window) {
-
+window.MY_SCOPE = $scope;
   // these variables are set by the API interface
   var questions = {};
   var answers = {}; //todo: fetch & load
