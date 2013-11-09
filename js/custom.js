@@ -23,7 +23,6 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
-            
     }
     else {
       $scope.currentAnswer = '<p>no answers :(</p>';
@@ -41,32 +40,34 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
 
 
 SQ.run(function($rootScope) {
+  $rootScope.hasLoaded = false;
   $rootScope.currentQuestionId = -1;
   $rootScope.questions = {};
   $rootScope.tags = {};
   $rootScope.topicTags = {};
   $rootScope.topic = 'python';
   $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
-
 });
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
 SQ.controller("IndexController", function ($scope, $http, $window, $location, $rootScope) {
   TOPIC_SCOPE = $scope;
-  $scope.topic = "";
   $scope.submitTopic = function () {
     //write to the external variable here
     $rootScope.topic = $scope.topic;
+    $window.alert($scope.topic);
+    $rootScope.hasLoaded = false;
     window.location = "#question";
   }
+  $scope.topic = '';
 });
 SQ.controller("QuestionController", function ($scope, $http, $window, $location, $rootScope) {
   window.MY_SCOPE = $scope;
 
   // these variables are set by the API interface
-  $scope.currentTitle = "The Python yield keyword explained";
-  $scope.currentQuestion = "<p>placeholder...</p>";
+  $scope.currentTitle = "loading...";
+  $scope.currentQuestion = "<p>loading...</p>";
   $scope.currentTags = [];
   
   //updates the ourScore for all unanswered questions
@@ -89,7 +90,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   function getTags(newTags) {
     for(t in newTags)
     {
-      console.log(newTags[t].name);
       $rootScope.topicTags[newTags[t].name] = 0;
     }
   };
@@ -165,14 +165,23 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
     $location.path( "/answer" );
   };
 
-  // load the data for the 'python' stackoverflow questions
-  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-          .success(function(data, status, headers, config) {
-                         processNewlyFetchedQuestions(data['items']);
-                }).
-            error(function(data, status, headers, config) {
-                         $window.alert('ERROR LOADING QUESTIONS');
-                });
+  if (!$rootScope.hasLoaded) {
+    $rootScope.currentQuestionId = -1;
+    $rootScope.questions = {};
+    $rootScope.tags = {};
+    $rootScope.topicTags = {};
+
+    // load the data for the 'python' stackoverflow questions
+    $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=' + $rootScope.topic + '&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+      .success(function(data, status, headers, config) {
+                     processNewlyFetchedQuestions(data['items']);
+            }).
+        error(function(data, status, headers, config) {
+                     $window.alert('ERROR LOADING QUESTIONS');
+            });
+
+    $rootScope.hasLoaded = true;
+  }
 
   //get all tags
   $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
