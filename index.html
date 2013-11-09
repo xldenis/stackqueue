@@ -1,5 +1,5 @@
 
-<html ng-app="stackQueue">
+<html ng-app="stackQueueCtrl">
 <head>
   <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
@@ -15,8 +15,8 @@
   <div  class="ui one column page grid">
     <div class="column">
       <article>
-        <h2 class="ui header"> {{title}} </h3>
-          <div class="ui segment" ng-bind-html-unsafe="currentQuestion"> </div>
+        <h2 class="ui header" ng-bind-html="currentTitle"></h3>
+          <div class="ui segment" ng-bind-html="currentQuestion"> </div>
         </article>
 
         <!-- <div class="ui labeled icon buttons"> -->
