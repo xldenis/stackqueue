@@ -63,7 +63,7 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
 
       } else if ($scope.tags[t] > 0) {
         score = $scope.tags[t] * 100.0 / maxScore / 2;
-        score = 50 - score;
+        score = 55 - score;
         singleScore = {
           'score':score,
           'tag': t
@@ -71,7 +71,7 @@ SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
         $scope.scores.push(singleScore);
       } else if ($scope.tags[t] < 0) {
         score = $scope.tags[t] * 100.0 / minScore / 2;
-        score += 50;
+        score += 45;
         singleScore = {
           'score':score,
           'tag': t
