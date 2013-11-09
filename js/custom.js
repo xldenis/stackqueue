@@ -28,6 +28,7 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
     else {
       $scope.currentAnswer = '<p>no answers :(</p>';
     }
+    $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
   };
 
   $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
