@@ -1,5 +1,7 @@
 angular.module('stackQueueCtrl', ['ngSanitize']);
 
+chatScope = angular.element(document.getElementById('body')).scope();
+
 function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
@@ -20,9 +22,10 @@ function stackQueueCtrl($scope, $http, $window) {
   		question = questions[q];
   		if (question.asked == false) {
   			avgTagScore = 0.0;
-  			for (tag in question.tags) 
+  			count = 0;
+  			for (tag in question.tags)
   				avgTagScore += question.tags[tag];
-  			avgTagScore /= (float)question.tags.length;
+  			avgTagScore /= question.tags.length;
   		
   			question.ourScore = (avgTagScore * 10000) + question.score
   		}
@@ -42,11 +45,13 @@ function stackQueueCtrl($scope, $http, $window) {
 			questions[q.question_id] = q;
   		}
   	}
-  	updateAllUnansweredQuestionScores();
   	$scope.getNewQuestion();
   };
 
   $scope.getNewQuestion = function() {
+  	//update scores
+  	updateAllUnansweredQuestionScores();
+
   	//compute best question
   	maxScore = -10000000;
   	topQuestion = questions[0];
@@ -60,7 +65,7 @@ function stackQueueCtrl($scope, $http, $window) {
   		}
   	}
 
-  	// fill in new values for title, question, tags, stackOverflowUrl
+  	// fill in new values for title, question, stackOverflowUrl
   	currentQuestion = topQuestion.question_id;
   	$scope.currentTitle = currentQuestion.title;
   	//TODO: $scope.currentQuestion
