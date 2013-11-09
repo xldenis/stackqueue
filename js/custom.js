@@ -29,7 +29,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window) {
 window.MY_SCOPE = $scope;
   // these variables are set by the API interface
   $scope.questions = {};
-  $scope.answers = {}; //todo: fetch & load
   $scope.tags = {};
   $scope.topicTags = {};
   $scope.currentQuestionId = -1;
@@ -112,15 +111,28 @@ window.MY_SCOPE = $scope;
   	// fill in new values for title, question, stackOverflowUrl
   	$scope.currentQuestionId = topQuestion.question_id;
   	$scope.currentTitle = topQuestion.title;
-  	//TODO: $scope.currentQuestion
-  	$scope.currentQuestion = 'fill me in!';
+  	$scope.currentQuestion = topQuestion.body;
   	$scope.stackOverflowUrl = topQuestion.link;
+
+  	$scope.questions[$scope.currentQuestionId].asked = true;
   }
 
+  function showAnswer(answers) {
+  	if (answers.length > 0) {
+  		$window.alert(answers[0].body);
+  	}
+  	else {
+  		$window.alert('no answers :(');
+  	}
+
+  	$scope.getNewQuestion();
+  };
+
   $scope.questionKnown = function () {
+
     //if the answer is known, demote the tags
-    for (var i = 0; i < $scope.questions[currentQuestionId].tags.length; i++){
-      $scope.tags[questions[currentQuestionId].tags[i]]--;
+    for (var i = 0; i < $scope.questions[$scope.currentQuestionId].tags.length; i++){
+      $scope.tags[$scope.questions[$scope.currentQuestionId].tags[i]]--;
     }
 
     //now go and get a new question
@@ -132,18 +144,26 @@ window.MY_SCOPE = $scope;
     for(var i = 0; i < $scope.questions[$scope.currentQuestionId].tags.length; i++){
       $scope.tags[$scope.questions[$scope.currentQuestionId].tags[i]]++;
     }
-    
-    //get the answer
+
+    //show correct answer
+  	 $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $scope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK')
+	  .success(function(data, status, headers, config) {
+	  	$scope.test = data;
+	    	     showAnswer(data['items']);
+		}).
+	    error(function(data, status, headers, config) {
+	    	     $window.alert('ERROR LOADING ANSWERS');
+		});
   }
 
   // load the data for the 'python' stackoverflow questions
-  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=JSON_CALLBACK')
+  $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK')
 	  .success(function(data, status, headers, config) {
 	  	$scope.test = data;
 	    	     processNewlyFetchedQuestions(data['items']);
 		}).
 	    error(function(data, status, headers, config) {
-	    	     $window.alert('ERROR LOADING DATA');
+	    	     $window.alert('ERROR LOADING QUESTIONS');
 		});
 
 <<<<<<< HEAD:custom.js
