@@ -17,7 +17,12 @@ SQ.config(['$routeProvider',
     }]);
 
 SQ.controller("IndexController", function ($scope, $http, $window) {
-  $scope.nothing = 0;
+  TOPIC_SCOPE = $scope;
+  $scope.topic = "";
+  $scope.submitTopic = function () {
+    //write to the external variable here
+    window.location = "#question";
+  }
 });
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
