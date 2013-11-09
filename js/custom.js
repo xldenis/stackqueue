@@ -20,6 +20,9 @@ SQ.controller("IndexController", function ($scope, $http, $window) {
   $scope.nothing = 0;
 });
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
+  $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
+  $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
+
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
@@ -56,7 +59,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   // these variables are set by the API interface
   $scope.currentTitle = "The Python yield keyword explained";
   $scope.currentQuestion = "<p>placeholder...</p>";
-  $scope.stackOverflowUrl = "http://stackoverflow.com";
   
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
@@ -129,7 +131,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
           $rootScope.currentQuestionId = topQuestion.question_id;
           $scope.currentTitle = topQuestion.title;
           $scope.currentQuestion = topQuestion.body;
-          $scope.stackOverflowUrl = topQuestion.link;
 
           $rootScope.questions[$rootScope.currentQuestionId].asked = true;
   };
