@@ -6,9 +6,12 @@
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
   <script type="text/javascript" src="custom.js"></script>
- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css"/>
   <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="http://yandex.st/highlightjs/7.4/styles/default.min.css">
+  <script src="http://yandex.st/highlightjs/7.4/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <title> Stack Queue </title>
 </head>
 <body ng-controller="stackQueueCtrl">
@@ -18,17 +21,16 @@
         <h2 class="ui header" ng-bind-html="currentTitle"></h3>
           <div class="ui segment" ng-bind-html="currentQuestion"> </div>
         </article>
+        <span ng-show="question">
+          <div class="ui labeled icon button"> <i class="smile icon"></i>Yes </div>
+          <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
+          <div class="ui labeled icon button"><i class="frown icon"></i> No </div>
+        </span>
 
-        <!-- <div class="ui labeled icon buttons"> -->
-        <div class="ui labeled icon button"> <i class="smile icon"></i>Yes </div>
-        <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
-        <div class="ui labeled icon button"><i class="frown icon"></i> No </div>
-        <!-- </div> -->
-
-        <div class="ui buttons">
+        <span class="ui buttons" ng-hide="question">
           <div class="ui green button"> Next Question </div>
           <div class="ui  button"> Learn More </div>
-        </div>
+        </span>
       </div>
     </div>
 
