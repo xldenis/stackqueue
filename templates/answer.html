@@ -6,12 +6,12 @@
   <article>
     <div class = "ui labels" >
     <div class="ui red ribbon label">Tags:</div>
-    <div class="ui label" ng-repeat="t in currentTag">{{ tag }}</div> 
+    <div class="ui label" ng-repeat="t in tags">{{ t }}</div> 
     </div>
     <div class="ui basic segment" ng-bind-html="currentAnswer"></div>
     <span class="ui buttons" >
       <a href="{{learnMoreLink}}" target="_blank"><div class="ui  button"> Learn More </div></a>
-      <a href='#question'><div class="ui green button"> Next Question </div></a>
+      <a id="RightKey" href='#question'><div class="ui green button"> Next Question </div></a>
 
     </span>
   </article>

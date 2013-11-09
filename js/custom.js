@@ -1,3 +1,22 @@
+//handle key presses
+document.onkeydown = function() {
+    switch (window.event.keyCode) {
+        case 37:
+            $("#LeftKey").click();
+            break;
+        case 38:
+            $("#UpDownKey").click();
+            break;
+        case 39:
+            $("#RightKey").click();
+            break;
+        case 40:
+            $("#UpDownKey").click();
+            break;
+    }
+};
+
+
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
 SQ.config(['$routeProvider', 
@@ -27,6 +46,7 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
     else {
       $scope.currentAnswer = '<p>no answers :(</p>';
     }
+    $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
   };
 
   $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=stackoverflow&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
