@@ -1,9 +1,9 @@
 <div class="ui grid">
-  <section class="ui fifteen wide column">
+  <section class="ui fourteen wide column">
     <h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
     <article ng-show="question">
       <div class = "ui labels" >
-        <div class="ui red ribbon label">Tags:</div>
+        <div class="ui red ribbon label left">Tags:</div>
         <div class="ui label" ng-repeat="tag in currentTags">{{ tag }}</div> 
       </div>
       <div class="ui attached basic segment clear " ng-bind-html="currentQuestion"> </div>
@@ -15,7 +15,7 @@
      </span>
    </article>
  </section>
- <section class="ui right floated one wide column">
+ <section class="ui right floated two wide column">
   <div class="ui label fixed">Results</div>
 </section>
 </div>

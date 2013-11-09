@@ -1,22 +1,22 @@
 
 <div class="ui grid">
 
-<section class="ui fifteen wide column ">
+<section class="ui fourteen wide column ">
   <h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
   <article>
     <div class = "ui labels" >
-    <div class="ui red ribbon label">Tags:</div>
+    <div class="ui red ribbon label left">Tags:</div>
     <div class="ui label" ng-repeat="t in tags">{{ t }}</div> 
     </div>
-    <div class="ui basic segment" ng-bind-html="currentAnswer"></div>
-    <span class="ui buttons" >
-      <a href="{{learnMoreLink}}" target="_blank"><div class="ui  button"> Learn More </div></a>
-      <a id="RightKey" href='#question'><div class="ui green button"> Next Question </div></a>
+    <div class=" ui basic segment" ng-bind-html="currentAnswer"></div>
+    <span class="bottom attached 2 fluid ui labeled icon basic buttons" >
+      <div class="ui  button"> Learn More <i class="inverted left red icon"></i></div>
+<div class="ui right labeled icon button"> Next Question <i class="inverted right green icon"></i></div>
 
     </span>
   </article>
 </section>
-<section class="ui one wide column">
+<section class="ui two wide column">
   <div class="ui label fixed">test </div>
 </section>
 </div>
