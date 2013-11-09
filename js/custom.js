@@ -1,21 +1,24 @@
-var SQ = angular.module('stackQueueCtrl', ['ngSanitize']);
+var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
 SQ.config(['$routeProvider', 
     function ($routeProvider) {
-      $routeProvider.when('/topic', {
-        templateUrl: 'topics.html',
-        controller: 'TopicController'
+      $routeProvider.when('/question', {
+        templateUrl: '/templates/question.html',
+        controller: 'QuestionController'
       }).when("/answer", {
-        templateUrl: 'answer.html',
+        templateUrl: '/templates/answer.html',
         controller: 'AnswerController'
       }).otherwise({
         redirectTo: 'index.html'
       });
     }]);
+SQ.controller("AnswerController", function ($scope, $http, $window) {
+  $scope.nothing = 0;
+});
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
-function stackQueueCtrl($scope, $http, $window) {
+SQ.controller("QuestionController", function ($scope, $http, $window) {
 window.MY_SCOPE = $scope;
   // these variables are set by the API interface
   $scope.questions = {};
@@ -125,4 +128,4 @@ window.MY_SCOPE = $scope;
 	    	     $window.alert('ERROR LOADING DATA');
 		});
 
-};
+});
