@@ -21,6 +21,7 @@ h1,h2,h3,h4,h5,h6 {
   border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
+
 .masthead {
   position: relative;
   overflow: hidden;
@@ -38,4 +39,7 @@ h1,h2,h3,h4,h5,h6 {
   line-height: 1.2;
   margin: -20px 0px 0px;
   padding-bottom: 0px;
+
+.ui.label.fixed {
+  position: fixed;
 }

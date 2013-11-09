@@ -20,10 +20,10 @@ SQ.config(['$routeProvider',
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
-
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
+            
     }
     else {
       $scope.currentAnswer = '<p>no answers :(</p>';
@@ -47,6 +47,7 @@ SQ.run(function($rootScope) {
   $rootScope.topicTags = {};
   $rootScope.topic = 'python';
   $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
+
 });
 
 chatScope = angular.element(document.getElementById('body')).scope();
@@ -66,6 +67,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   // these variables are set by the API interface
   $scope.currentTitle = "The Python yield keyword explained";
   $scope.currentQuestion = "<p>placeholder...</p>";
+  $scope.currentTags = [];
   
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
@@ -138,6 +140,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
           $rootScope.currentQuestionId = topQuestion.question_id;
           $scope.currentTitle = topQuestion.title;
           $scope.currentQuestion = topQuestion.body;
+          $scope.currentTags = topQuestion.tags;
 
           $rootScope.questions[$rootScope.currentQuestionId].asked = true;
   };
