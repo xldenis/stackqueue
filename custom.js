@@ -3,6 +3,7 @@ function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
   var questions = {};
+  var answers = {}; //todo: fetch & load
   var tags = {};
   var currentQuestionId = -1;
   var topic = 'python';
@@ -11,6 +12,23 @@ function stackQueueCtrl($scope, $http, $window) {
   $scope.currentQuestion = "This is the question";
   $scope.stackOverflowUrl = "http://stackoverflow.com";
   
+  //updates the ourScore for all unanswered questions
+  function updateAllUnansweredQuestionScores() {
+  	//formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
+  	for (q in questions) {
+  		question = questions[q];
+  		if (question.asked == false) {
+  			avgTagScore = 0.0;
+  			for (tag in question.tags) 
+  				avgTagScore += question.tags[tag];
+  			avgTagScore /= (float)question.tags.length;
+  		
+  			question.ourScore = (avgTagScore * 10000) + question.score
+  		}
+  	}
+  };
+
+  //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
 	//TODO: Cody
@@ -19,18 +37,33 @@ function stackQueueCtrl($scope, $http, $window) {
   	for (q in newQuestions) {
   		if (questions[q.question_id] != undefined) {
   			q.asked = false;
+  			q.ourScore = -1; //not calculated yet
 			questions[q.question_id] = q;
   		}
   	}
+  	updateAllUnansweredQuestionScores();
   	$scope.getNewQuestion();
   };
 
   $scope.getNewQuestion = function() {
   	//compute best question
-  	
+  	maxScore = -10000000;
+  	topQuestion = questions[0];
+  	for (q in questions) {
+  		question = questions[q];
+  		if (question.asked == false) {
+  			if (question.ourScore > maxScore) {
+  				maxScore = question.ourScore;
+  				topQuestion = question;
+  			}
+  		}
+  	}
 
-
-    // fill in new values for title, question, tags, stackOverflowUrl
+  	// fill in new values for title, question, tags, stackOverflowUrl
+  	currentQuestion = topQuestion.question_id;
+  	$scope.currentTitle = currentQuestion.title;
+  	//TODO: $scope.currentQuestion
+  	$scope.stackOverflowUrl = currentQuestion.link;
   }
 
   $scope.questionKnown = function () {
