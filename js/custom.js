@@ -31,7 +31,7 @@ SQ.config(['$routeProvider',
         templateUrl: "/templates/index.html",
         controller: "IndexController"
       }).otherwise({
-        redirectTo: 'index.html'
+        redirectTo: '/'
       });
     }]);
 
