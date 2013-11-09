@@ -26,7 +26,7 @@ window.MY_SCOPE = $scope;
   			avgTagScore = 0.0;
   			count = 0;
   			for (tag in question.tags)
-  				avgTagScore += question.tags[tag];
+  				avgTagScore += $scope.tags[question.tags[tag]];
   			avgTagScore /= question.tags.length;
   			$scope.questions[q].ourScore = (avgTagScore * 10000) + question.score
   		}
@@ -36,15 +36,12 @@ window.MY_SCOPE = $scope;
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
-
     for (q in newQuestions){
       question = newQuestions[q];
       for (t in question.tags) {
         tag = question.tags[t];
         if($scope.tags[tag] == undefined)
-        {
           $scope.tags[tag] = 0;
-        } 
       }
     }
 
@@ -79,10 +76,11 @@ window.MY_SCOPE = $scope;
   	}
 
   	// fill in new values for title, question, stackOverflowUrl
-  	$scope.currentQuestion = topQuestion.question_id;
-  	$scope.currentTitle = currentQuestion.title;
+  	$scope.currentQuestionId = topQuestion.question_id;
+  	$scope.currentTitle = topQuestion.title;
   	//TODO: $scope.currentQuestion
-  	$scope.stackOverflowUrl = currentQuestion.link;
+  	$scope.currentQuestion = 'fill me in!';
+  	$scope.stackOverflowUrl = topQuestion.link;
   }
 
   $scope.questionKnown = function () {
@@ -97,12 +95,11 @@ window.MY_SCOPE = $scope;
 
   $scope.questionNotKnown = function () {
     //if the answer is not known, promote the tags
-    for(var i = 0; i < questions[currentQuestionId].tags.length; i++){
-      $scope.tags[questions[currentQuestionId].tags[i]]++;
+    for(var i = 0; i < $scope.questions[$scope.currentQuestionId].tags.length; i++){
+      $scope.tags[$scope.questions[$scope.currentQuestionId].tags[i]]++;
     }
     
     //get the answer
-    
   }
 
   // load the data for the 'python' stackoverflow questions
