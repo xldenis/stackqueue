@@ -20,3 +20,22 @@ h1,h2,h3,h4,h5,h6 {
   border:none;
   border-bottom: 1px solid rgba(0,0,0,0.2);
 }
+
+.masthead {
+  position: relative;
+  overflow: hidden;
+  background-color: #00B5AD;
+  text-align: center;
+  padding-bottom: 50px;
+  padding-top:70px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0px;
+  border-bottom: none;
+}
+.masthead h1 {
+  font-size: 5em;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin: -20px 0px 0px;
+  padding-bottom: 0px;
+}
