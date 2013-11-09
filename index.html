@@ -1,12 +1,13 @@
 
-<html ng-app>
-  <head>
-    <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
-	
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-    <script type="text/javascript" src="custom.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css"/>
+<html ng-app="stackQueue">
+<head>
+  <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+  <script type="text/javascript" src="custom.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular-sanitize.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
   <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
   <title> Stack Queue </title>
 </head>
@@ -15,23 +16,21 @@
     <div class="column">
       <article>
         <h2 class="ui header"> {{title}} </h3>
-        <div class="ui segment">
-          {{ question }}
-        </div>
-      </article>
+          <div class="ui segment" ng-bind-html-unsafe="currentQuestion"> </div>
+        </article>
 
-      <!-- <div class="ui labeled icon buttons"> -->
+        <!-- <div class="ui labeled icon buttons"> -->
         <div class="ui labeled icon button"> <i class="smile icon"></i>Yes </div>
         <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
         <div class="ui labeled icon button"><i class="frown icon"></i> No </div>
-      <!-- </div> -->
+        <!-- </div> -->
 
-      <div class="ui buttons">
-        <div class="ui green button"> Next Question </div>
-        <div class="ui  button"> Learn More </div>
+        <div class="ui buttons">
+          <div class="ui green button"> Next Question </div>
+          <div class="ui  button"> Learn More </div>
+        </div>
       </div>
     </div>
-  </div>
 
-</body>
-</html>
+  </body>
+  </html>

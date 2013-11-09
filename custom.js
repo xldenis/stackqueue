@@ -1,4 +1,4 @@
-
+angular.module('stackQueue', [ 'ngSanitize']);
 function stackQueueCtrl($scope, $http, $window) {
 
   // these variables are set by the API interface
