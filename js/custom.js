@@ -49,7 +49,7 @@ SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) 
     $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
   };
 
-  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
+  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=votes&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
     .success(function(data, status, headers, config) {
              showAnswer(data['items']);
     }).
