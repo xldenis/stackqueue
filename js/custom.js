@@ -186,7 +186,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
   $scope.tagClicked = function (tag) {
     $rootScope.hasLoaded = false;
     $rootScope.topic = tag;
-    $http.reload();
+    $route.reload();
   }
 
 

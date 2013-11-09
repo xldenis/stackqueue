@@ -4,7 +4,7 @@
     <article>
       <div class = "ui labels" >
         <div class="ui red ribbon label left">Tags:</div>
-        <div class="ui label" ng-repeat="tag in currentTags" ng-click="tagClicked( '{{ tag }}' )">{{ tag }}</div> 
+        <div class="ui label" ng-repeat="tag in currentTags">{{ tag }}</div> 
       </div>
       <div class="ui attached basic segment clear " style="padding-top: 5px; margin-top: 10px; margin-bottom: 10px;" ng-bind-html="currentQuestion"> </div>
       <span class="bottom attached 3 fluid ui labeled icon basic buttons">
