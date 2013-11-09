@@ -30,60 +30,15 @@ SQ.config(['$routeProvider',
       }).when("/", {
         templateUrl: "/templates/index.html",
         controller: "IndexController"
-      }).when("/results", {
-        templateUrl: '/templates/score.html',
-        controller: "ScoreController"
       }).otherwise({
         redirectTo: '/'
       });
     }]);
 
-SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
-  window.SCORE_SCOPE = $scope;
-  $scope.tags = $rootScope.tags;
-  $scope.scores = [];
-  $scope.go = function showResults() {
-    $scope.tags = $rootScope.tags;
-    $scope.scores = []
-    $scope.tags = $rootScope.tags;
-
-    var singleScore = {}
-    var maxScore = -10000000;
-    var minScore = 10000000;
-    for (t in $scope.tags) {
-      if ($scope.tags[t] > maxScore)
-        maxScore = $scope.tags[t];
-      if ($scope.tags[t] < minScore) {
-        minScore = $scope.tags[t];
-      }
-    }
-    var score = 0;
-    for (t in $scope.tags) {
-      if ($scope.tags[t] == 0){
-
-      } else if ($scope.tags[t] > 0) {
-        score = $scope.tags[t] * 100.0 / maxScore / 2;
-        score = 55 - score;
-        singleScore = {
-          'score':score,
-          'tag': t
-        };
-        $scope.scores.push(singleScore);
-      } else if ($scope.tags[t] < 0) {
-        score = $scope.tags[t] * 100.0 / minScore / 2;
-        score += 45;
-        singleScore = {
-          'score':score,
-          'tag': t
-        };
-        $scope.scores.push(singleScore);
-      }
-    }
-  }
-});
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
+  $scope.go = $rootScope.go;
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
@@ -112,7 +67,48 @@ SQ.run(function($rootScope) {
   $rootScope.topicTags = {};
   $rootScope.topic = 'python';
   $rootScope.question = true; //Boolean flag on whether we are showing a question or answer.
+  $rootScope.scores = [];
 
+  $rootScope.go = function showResults() {
+    var $scope = {};
+    $scope.tags = $rootScope.tags;
+    $rootScope.scores = []
+    $scope.tags = $rootScope.tags;
+
+    var singleScore = {}
+    var maxScore = -10000000;
+    var minScore = 10000000;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] > maxScore)
+        maxScore = $scope.tags[t];
+      if ($scope.tags[t] < minScore) {
+        minScore = $scope.tags[t];
+      }
+    }
+    var score = 0;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] == 0){
+
+      } else if ($scope.tags[t] > 0) {
+        score = $scope.tags[t] * 100.0 / maxScore / 2;
+        score = 55 - score;
+        singleScore = {
+          'score':score,
+          'tag': t
+        };
+        $rootScope.scores.push(singleScore);
+      } else if ($scope.tags[t] < 0) {
+        score = $scope.tags[t] * 100.0 / minScore / 2;
+        score += 45;
+        singleScore = {
+          'score':score,
+          'tag': t
+        };
+        $rootScope.scores.push(singleScore);
+      }
+    }
+    $('.ui.modal').modal('setting', {easing: null, }).modal("show");
+  }
 });
 
 chatScope = angular.element(document.getElementById('body')).scope();
@@ -136,6 +132,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $location,
   $scope.currentQuestion = "<p>loading...</p>";
   $scope.currentTags = [];
   
+  $scope.go = $rootScope.go;
   //updates the ourScore for all unanswered questions
   function updateAllUnansweredQuestionScores() {
           //formula: ourScore = ((average of all tag scores) * 10,000) + questionScore
