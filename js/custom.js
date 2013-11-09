@@ -153,6 +153,9 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     }
   };
 
+  
+  
+  
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
     //add any new tags
