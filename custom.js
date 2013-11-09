@@ -13,8 +13,10 @@ function stackQueueCtrl($scope, $http, $window) {
   
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
-	//TODO: Cody
-
+    for(t in newQuestions.tags) {
+      tags.push(t);
+    }
+	
   	//add new questions
   	for (q in newQuestions) {
   		if (questions[q.question_id] != undefined) {
