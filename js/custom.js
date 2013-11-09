@@ -27,10 +27,10 @@ SQ.controller("IndexController", function ($scope, $http, $window) {
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
-
   function showAnswer(answers) {
     if (answers.length > 0) {
       $scope.currentAnswer = answers[0].body;
+            
     }
     else {
       $scope.currentAnswer = '<p>no answers :(</p>';
