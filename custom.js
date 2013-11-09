@@ -5,22 +5,29 @@ function stackQueueCtrl($scope, $http, $window) {
   var tags = {};
   var currentQuestionId = -1;
   var topic = 'python';
+
+  $scope.currentTitle = "This is the title";
+  $scope.currentQuestion = "This is the question";
+  $scope.stackOverflowUrl = "http://stackoverflow.com";
   
   function processNewlyFetchedQuestions(newQuestions) {
   	//add any new tags
 	//TODO: Cody
 
   	//add new questions
-  	questions.push(newQuestions);
-
-  	alert(newQuestions);
+  	for (q in newQuestions) {
+  		if (questions[q.question_id] != undefined) {
+  			q.asked = false;
+			questions[q.question_id] = q;
+  		}
+  	}
+  	$window.alert(questions);
   };
 
-  $scope.currentTitle = "This is the title";
-  $scope.currentQuestion = "This is the question";
-  $scope.stackOverflowUrl = "http://stackoverflow.com";
-
   $scope.getNewQuestion = function() {
+  	//compute best 
+
+
     // fill in new values for title, question, tags, stackOverflowUrl
   }
 
