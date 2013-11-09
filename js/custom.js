@@ -30,12 +30,57 @@ SQ.config(['$routeProvider',
       }).when("/", {
         templateUrl: "/templates/index.html",
         controller: "IndexController"
+      }).when("/results", {
+        templateUrl: '/templates/score.html',
+        controller: "ScoreController"
       }).otherwise({
         redirectTo: 'index.html'
       });
     }]);
 
+SQ.controller("ScoreController", function($scope, $http, $window, $rootScope) {
+  window.SCORE_SCOPE = $scope;
+  $scope.tags = $rootScope.tags;
+  $scope.scores = [];
+  $scope.go = function showResults() {
+    $scope.tags = $rootScope.tags;
 
+    var singleScore = {}
+    var maxScore = -10000000;
+    var minScore = 10000000;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] > maxScore)
+        maxScore = $scope.tags[t];
+      if ($scope.tags[t] < minScore) {
+        minScore = $scope.tags[t];
+      }
+    }
+    console.log("Min: " + minScore);
+    console.log("Max: " + maxScore);
+    var score = 0;
+    for (t in $scope.tags) {
+      if ($scope.tags[t] == 0){
+
+      } else if ($scope.tags[t] > 0) {
+        score = $scope.tags[t] * 100.0 / maxScore / 2;
+        score = 50 - score;
+        singleScore = {
+          'score':score,
+          'tag': t
+        };
+        $scope.scores.push(singleScore);
+      } else if ($scope.tags[t] < 0) {
+        score = $scope.tags[t] * 100.0 / minScore / 2;
+        score += 50;
+        singleScore = {
+          'score':score,
+          'tag': t
+        }
+        $scope.scores.push(singleScore)
+      }
+    }
+  }
+});
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
