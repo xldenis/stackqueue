@@ -16,23 +16,8 @@
 </head>
 <body ng-controller="stackQueueCtrl">
   <div  class="ui one column page grid">
-    <div class="column">
-      <article>
-        <h2 class="ui header" ng-bind-html="currentTitle"></h3>
-          <div class="ui segment" ng-bind-html="currentQuestion"> </div>
-        </article>
-        <span ng-show="question">
-          <div class="ui labeled icon button"> <i class="smile icon"></i>Yes </div>
-          <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
-          <div class="ui labeled icon button"><i class="frown icon"></i> No </div>
-        </span>
+    <section class="column" ng-view></section>
+  </div>
 
-        <span class="ui buttons" ng-hide="question">
-          <div class="ui green button"> Next Question </div>
-          <div class="ui  button"> Learn More </div>
-        </span>
-      </div>
-    </div>
-
-  </body>
-  </html>
+</body>
+</html>
