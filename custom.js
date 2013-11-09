@@ -8,6 +8,7 @@ window.MY_SCOPE = $scope;
   $scope.questions = {};
   $scope.answers = {}; //todo: fetch & load
   $scope.tags = {};
+  $scope.topicTags = {};
   $scope.currentQuestionId = -1;
   $scope.topic = 'python';
   $scope.test = [];
@@ -32,6 +33,16 @@ window.MY_SCOPE = $scope;
   		}
   	}
   };
+
+  //gets all the tags
+  function getTags(newTags) {
+    for(t in newTags)
+    {
+      console.log(newTags[t].name);
+      $scope.topicTags[newTags[t].name] = 0;
+    }
+
+  }
 
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
@@ -115,4 +126,13 @@ window.MY_SCOPE = $scope;
 	    	     $window.alert('ERROR LOADING DATA');
 		});
 
+  //get all tags
+  $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=100&order=desc&sort=popular&site=stackoverflow&callback=JSON_CALLBACK')
+    .success(function(data, status, headers, config) {
+      $scope.test = data;
+             getTags(data['items']);
+    }).
+      error(function(data, status, headers, config) {
+             $window.alert('ERROR LOADING DATA');
+    });
 };
