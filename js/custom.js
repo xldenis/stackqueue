@@ -16,14 +16,7 @@ SQ.config(['$routeProvider',
       });
     }]);
 
-SQ.controller("IndexController", function ($scope, $http, $window) {
-  TOPIC_SCOPE = $scope;
-  $scope.topic = "";
-  $scope.submitTopic = function () {
-    //write to the external variable here
-    window.location = "#question";
-  }
-});
+
 SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
   $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
   $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
@@ -59,6 +52,15 @@ SQ.run(function($rootScope) {
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
+SQ.controller("IndexController", function ($scope, $http, $window, $location, $rootScope) {
+  TOPIC_SCOPE = $scope;
+  $scope.topic = "";
+  $scope.submitTopic = function () {
+    //write to the external variable here
+    $rootScope.topic = $scope.topic;
+    window.location = "#question";
+  }
+});
 SQ.controller("QuestionController", function ($scope, $http, $window, $location, $rootScope) {
   window.MY_SCOPE = $scope;
 
