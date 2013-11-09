@@ -1,4 +1,17 @@
-angular.module('stackQueueCtrl', ['ngSanitize']);
+var SQ = angular.module('stackQueueCtrl', ['ngSanitize']);
+
+SQ.config(['$routeProvider', 
+    function ($routeProvider) {
+      $routeProvider.when('/topic', {
+        templateUrl: 'topics.html',
+        controller: 'TopicController'
+      }).when("/answer", {
+        templateUrl: 'answer.html',
+        controller: 'AnswerController'
+      }).otherwise({
+        redirectTo: 'index.html'
+      });
+    }]);
 
 chatScope = angular.element(document.getElementById('body')).scope();
 
