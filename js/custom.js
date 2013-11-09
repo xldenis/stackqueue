@@ -110,28 +110,6 @@ SQ.run(function($rootScope) {
   }
 });
 
-SQ.controller("AnswerController", function ($scope, $http, $window, $rootScope) {
-  $scope.currentTitle = $scope.questions[$scope.currentQuestionId].title;
-  $scope.learnMoreLink = $scope.questions[$scope.currentQuestionId].link;
-  function showAnswer(answers) {
-    if (answers.length > 0) {
-      $scope.currentAnswer = answers[0].body;
-    }
-    else {
-      $scope.currentAnswer = '<p>no answers :(</p>';
-    }
-    $scope.tags = $rootScope.questions[$rootScope.currentQuestionId].tags;
-  };
-
-  $http.jsonp('https://api.stackexchange.com/2.1//questions/' + $rootScope.currentQuestionId + '/answers?order=desc&sort=activity&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
-    .success(function(data, status, headers, config) {
-             showAnswer(data['items']);
-    }).
-      error(function(data, status, headers, config) {
-             $window.alert('ERROR LOADING ANSWERS');
-    });
-});
-
 SQ.run(function($rootScope) {
   $rootScope.hasLoaded = false;
   $rootScope.currentQuestionId = -1;
