@@ -5,10 +5,10 @@
     <div class="ui label">Some</div> 
   </div>
   <div class="ui basic segment " ng-bind-html="currentQuestion"> </div>
-  <span >
-    <div class="ui labeled icon button" ng-click="questionKnown()"> <i class="smile icon"></i>Yes </div>
+  <span class= "ui basic buttons" >
+    <div class="ui green labeled icon button" ng-click="questionKnown()"> <i class="smile icon"></i>Yes </div>
     <div class="ui labeled icon button"> <i class="meh icon"></i>Skip</div>
-    <div class="ui labeled icon button" ng-click="questionNotKnown()"><i class="frown icon"></i> No </div>
+    <div class="ui red labeled icon button" ng-click="questionNotKnown()"><i class="frown icon"></i> No </div>
 
   </span>
 </article>
