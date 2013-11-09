@@ -1,30 +1,34 @@
 
 <html ng-app>
-  <head>
-    <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
-    <script type="text/javascript" src="custom.js"></script>
-	  <script type="text/javascript" src="https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=processResponse"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-  </head>
-  <body ng-controller="stackQueueCtrl">
+<head>
+  <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="custom.js"></script>
+  <script type="text/javascript" src="https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=processResponse"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+</head>
+<body ng-controller="stackQueueCtrl">
+  <div  class="ui one column page grid">
+    <div class="column">
+      <article>
+        <h3 class="ui header"> {{title}} </h3>
+        <div class="ui segment">
+          {{ question }}
+        </div>
+      </article>
 
-  <article>
-    <h3 class="ui header"> {{title}} </h3>
-    <div class="ui basic segment">
-    {{ question }}
+      <div class="ui buttons">
+        <div class="ui green button"> Yes </div>
+        <div class="ui  button"> Skip</div>
+        <div class="ui red button"> No </div>
+      </span>
+
+      <div class="ui buttons">
+        <div class="ui green button"> Next Question </div>
+        <div class="ui  button"> Learn More </div>
+      </span>
     </div>
-  </article>
-
-  <div class="ui buttons">
-    <div class="ui green button"> Yes </div>
-    <div class="ui  button"> Skip</div>
-    <div class="ui red button"> No </div>
-  </span>
-
-  <div class="ui buttons">
-    <div class="ui green button"> Next Question </div>
-    <div class="ui  button"> Learn More </div>
-  </span>
-  
+  </div>
 </body>
 </html>
