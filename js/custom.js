@@ -17,13 +17,16 @@ SQ.config(['$routeProvider',
     }]);
 
 SQ.controller("IndexController", function ($scope, $http, $window) {
-  $scope.nothing = 0;
+  TOPIC_SCOPE = $scope;
+  $scope.topic = "";
+  $scope.submitTopic = function () {
+    //write to the external variable here
+    window.location = "#question";
+  }
 });
 SQ.controller("AnswerController", function ($scope, $http, $window) {
   $scope.nothing = 0;
 });
-
-chatScope = angular.element(document.getElementById('body')).scope();
 
 SQ.controller("QuestionController", function ($scope, $http, $window) {
 window.MY_SCOPE = $scope;
@@ -31,7 +34,7 @@ window.MY_SCOPE = $scope;
   $scope.questions = {};
   $scope.tags = {};
   $scope.currentQuestionId = -1;
-  $scope.topic = 'python';
+  $scope.topic = "";
   $scope.test = [];
   $scope.question = true; //Boolean flag on whether we are showing a question or answer.
 
