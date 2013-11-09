@@ -16,6 +16,9 @@ document.onkeydown = function() {
     }
 };
 
+// $('.ui.dropdown')
+//   .dropdown()
+// ;
 
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
