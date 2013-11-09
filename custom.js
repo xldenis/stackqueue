@@ -38,7 +38,10 @@ window.MY_SCOPE = $scope;
 
     
     for(t in newQuestions.tags) {
-      tags.push(t);
+      if(tags[t] == undefined)
+      {
+        questions.tags[t] = 0;
+      }
     }
 	
   	//add new questions
