@@ -1,11 +1,17 @@
-p<html ng-app>
-<head>
-  <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-  <script type="text/javascript" src="custom.js"></script>
-  <script type="text/javascript" src="/js/jQuery.min.js"></script>
-</head>
-<body>
+
+<html ng-app>
+  <head>
+    <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+	<script type="text/javascript" src="custom.js"></script>
+	<script type="text/javascript" src="https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=processResponse"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script type="text/javascript" src="custom.js"></script>
+    <script type="text/javascript" src="/js/jQuery.min.js"></script>
+
+  </head>
+  <body>
 
   <article>
     <h3> {{title}} </h3>
