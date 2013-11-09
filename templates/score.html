@@ -1,0 +1,10 @@
+<ul>
+  <li ng-repeat="s in scores" style="list-style:none;" class="ui grid">
+    <div class="four wide column" ng-bind-html="s.tag">{{ s.tag }} </div>
+    <div class="twelve wide column">
+      <div class="ui blue progress">
+        <div class="bar" style="width:{{s.score}}%;"></div>
+      </div>
+    </div>  
+  </li>
+</ul>
