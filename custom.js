@@ -13,9 +13,18 @@ app.controller( 'MainCtrl', function( $scope ) {
 			});
 		};
 
+<<<<<<< HEAD
 
 
 
 
 
 });
+=======
+function stackQueueCtrl($scope) {
+
+  $scope.title = "This is the title";
+  $scope.question = "This is the question";
+
+}
+>>>>>>> ae9460c20bd4941e7cecb408a99db3fa5dabce30

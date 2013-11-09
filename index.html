@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="semantic/packaged/css/semantic.min.css">
+<<<<<<< HEAD
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 	<script type="text/javascript" src="custom.js"></script>
 	
@@ -10,21 +11,30 @@
 
   </head>
   <body ng-app="myApp" ng-controller="MainCtrl" ng-init="init()">
+=======
+    <script type="text/javascript" src="custom.js"></script>
+	  <script type="text/javascript" src="https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&min=50&sort=votes&tagged=python&site=stackoverflow&callback=processResponse"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+  </head>
+  <body ng-controller="stackQueueCtrl">
+>>>>>>> ae9460c20bd4941e7cecb408a99db3fa5dabce30
 
   <article>
-    <h3> {{title}} </h3>
-    {{question content}}
+    <h3 class="ui header"> {{title}} </h3>
+    <div class="ui basic segment">
+    {{ question }}
+    </div>
   </article>
 
-  <span>
-    <button> Yes </button>
-    <button> Skip</button>
-    <button> No </button>
+  <div class="ui buttons">
+    <div class="ui green button"> Yes </div>
+    <div class="ui  button"> Skip</div>
+    <div class="ui red button"> No </div>
   </span>
 
-  <span>
-    <button> Next Question </button>
-    <button> Learn More </button>
+  <div class="ui buttons">
+    <div class="ui green button"> Next Question </div>
+    <div class="ui  button"> Learn More </div>
   </span>
   
 </body>
