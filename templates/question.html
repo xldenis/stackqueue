@@ -6,11 +6,12 @@
         <div class="ui red ribbon label">Tags:</div>
         <div class="ui label" ng-repeat="tag in currentTags">{{ tag }}</div> 
       </div>
-      <div class="ui attached basic segment " ng-bind-html="currentQuestion"> </div>
-      <span class="ottom attached 3 fluid ui buttons">
-       <div class="ui labeled icon button" ng-click="questionKnown()"> <i class="smile icon"></i>Yes </div>
-       <div class="ui labeled icon button" ng-click="getNewQuestion()"> <i class="meh icon"></i>Skip</div>
-       <div class="ui labeled icon button" ng-click="questionNotKnown()"><i class="frown icon"></i> No </div>
+      <div class="ui attached basic segment clear " ng-bind-html="currentQuestion"> </div>
+      <span class="bottom attached 3 fluid ui labeled icon basic buttons">
+       <div class="ui button" ng-click="questionNotKnown()"><i class="inverted left red icon"></i> Answer </div>
+       <div class="ui button" ng-click="getNewQuestion()"> <i class="inverted up black icon"></i>Skip</div>
+       <div class="ui right labeled icon button" ng-click="questionKnown()"> <i class="inverted right green icon"></i>Next Question </div>
+
      </span>
    </article>
  </section>
