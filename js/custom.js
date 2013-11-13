@@ -18,6 +18,22 @@ document.onkeydown = function() {
 
 var SQ = angular.module('stackQueueCtrl', ['ngSanitize', 'ngRoute']);
 
+SQ.directive("mathjaxBind", function() {
+    return {
+        restrict: "A",
+        controller: ["$scope", "$element", "$attrs",
+                function($scope, $element, $attrs) {
+            $scope.$watch($attrs.mathjaxBind, function(value) {
+                var $script = angular.element("<script type='math/tex'>")
+                    .html(value == undefined ? "" : value);
+                $element.html("");
+                $element.append($script);
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, $element[0]]);
+            });
+        }]
+    };
+});
+
 SQ.config(['$routeProvider', 
     function ($routeProvider) {
       $routeProvider.when('/question', {
@@ -270,8 +286,8 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $scope.currentTags = topQuestion.tags;
 
     $rootScope.questions[$rootScope.currentQuestionId].asked = true;
-  };
 
+  };
   $rootScope.questionKnown = function () {
     //if the answer is known, demote the tags
     for (var i = 0; i < $rootScope.questions[$rootScope.currentQuestionId].tags.length; i++){
@@ -312,3 +328,4 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
 
   $rootScope.hasLoaded = true;
 });
+
