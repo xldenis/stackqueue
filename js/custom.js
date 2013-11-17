@@ -24,10 +24,7 @@ SQ.directive("mathjaxBind", function() {
         controller: ["$scope", "$element", "$attrs",
                 function($scope, $element, $attrs) {
             $scope.$watch($attrs.mathjaxBind, function(value) {
-                var $script = angular.element("<script type='math/tex'>")
-                    .html(value == undefined ? "" : value);
-                $element.html("");
-                $element.append($script);
+                $element.html(value == undefined ? "" : value);
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, $element[0]]);
             });
         }]
@@ -284,7 +281,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $scope.currentTitle = topQuestion.title;
     $scope.currentQuestion = topQuestion.body;
     $scope.currentTags = topQuestion.tags;
-
+     MathJax.Hub.Queue(["Typeset", MathJax.Hub, $scope.currentQuestion ]);
     $rootScope.questions[$rootScope.currentQuestionId].asked = true;
 
   };

@@ -3,17 +3,17 @@
 <div class="ui grid">
 
 <section class="ui fourteen wide column ">
-  <h2 class="ui dividing header" ng-bind-html="currentTitle"></h2>
+  <h2 class="ui dividing header" mathjax-bind="currentTitle"></h2>
   <article>
     <div class = "ui labels" >
     <div class="ui red ribbon label left">Tags:</div>
     <div class="ui label" ng-repeat="t in tags">{{ t }}</div> 
     </div>
 
-    <div class=" ui basic segment" ng-bind-html="currentQuestion"></div>
+    <div class=" ui basic segment" mathjax-bind="currentQuestion"></div>
     <hr/>
     <h3>Answer:</h3>
-    <div class=" ui basic segment" ng-bind-html="currentAnswer"></div>
+    <div class=" ui basic segment" mathjax-bind="currentAnswer"></div>
     <span class="bottom attached 2 fluid ui labeled icon basic buttons" >
       <a class="ui  button" target="_blank" href="{{learnMoreLink}}"> Learn More <i class="inverted left red icon"></i></a>
 <a id="RightKey" class="ui right labeled icon button" href="#question"> Next Question <i class="inverted right green icon"></i></a>
