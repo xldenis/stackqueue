@@ -144,7 +144,7 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   
   $scope.submitTopic = function () {
     //write to the external variable here
-    $rootScope.topic = $scope.topic;
+    $rootScope.topic = $scope.topic.split(' ').join('-');
     $rootScope.stackexchangeSite = $('div.menu > div.active').attr('data-value');
     $rootScope.hasLoaded = false;
     window.location = "#question";
