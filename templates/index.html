@@ -1,40 +1,32 @@
-<div class = "ui labels" >
-  <div class="ui red ribbon label left">Start now!</div>
-</div>
-<div class="container">
-<h1 style="float: left;">I want to learn about...
-</h1>
 
-<div class="ui fluid input">
-  <form ng-submit="submitTopic();" style="text-align:center;">
-        <div class="ui fluid input">
-		  <div style="float: right; position: relative; top: 20px; font-size: 24px;" class="ui inline dropdown">
-		  <div class="text">stackoverflow</div>  
-		  <i class="dropdown icon"></i>
-			<div class="menu">
-			  <div class="item active" data-value="stackoverflow.com">stackoverflow</div>
-			  <div class="item" data-value="superuser.com">superuser</div>
-			  <div class="item" data-value="gaming.stackexchange.com">Arqade</div>
-			  <div class="item" data-value="english.stackexchange.com">English Language</div>
-			  <div class="item" data-value="math.stackexchange.com">Mathematics</div>
-			  <div class="item" data-value="movies.stackexchange.com">Movies & TV</div>
-			  <div class="item" data-value="boardgames.stackexchange.com">Board & Card Games</div>
-			  <div class="item" data-value="electronics.stackexchange.com">Electrical Engineering</div>
-			  <div class="item" data-value="graphicdesign.stackexchange.com">Graphic Design</div>
-			  <div class="item" data-value="scifi.stackexchange.com">Science Fiction & Fantasy</div>
-			  <div class="item" data-value="wordpress.stackexchange.com">Wordpress</div>
-			  <div class="item" data-value="answers.onstartups.com">Answers OnStartups</div>
-			  <div class="item" data-value="photo.stackexchange.com">Photography</div>
-			  <div class="item" data-value="bitcoin.stackexchange.com">Bitcoin</div>
-			  <div class="item" data-value="ux.stackexchange.com">User Experience</div>
-			  <div class="item" data-value="money.stackexchange.com">Personal Finance & Money</div>
-			  <div class="item" data-value="japanese.stackexchange.com">Japanese Language</div>
-			  <div class="item" data-value="history.stackexchange.com">History</div>
-			</div>
-		</div>
 
-    <input ng-model="topic" class="clear" type="text" id='topic' placeholder="{{search_placeholder}}" style="margin-bottom:10px;">
-    <input type="submit" class="ui blue button" value="LEARN!" style="width:60%;">
-  </form>
-</div>
-</div>
+<form ng-submit="submitTopic();" class="fluid input" style="text-align:center;">
+I want to learn about...
+	<input ng-model="topic" class="text" type="text" id='topic' placeholder="{{search_placeholder}}" style="margin-bottom:10px;">
+	in
+	<div class="ui inline dropdown">
+		<ul class="menu">
+			<li class="item active" data-value="stackoverflow.com">Programming</li>
+			<li class="item" data-value="superuser.com">System Administration</li>
+			<li class="item" data-value="gaming.stackexchange.com">Video Games</li>
+			<li class="item" data-value="english.stackexchange.com">English Language</li>
+			<li class="item" data-value="math.stackexchange.com">Mathematics</li>
+			<li class="item" data-value="movies.stackexchange.com">Movies & TV</li>
+			<li class="item" data-value="boardgames.stackexchange.com">Board & Card Games</li>
+			<li class="item" data-value="electronics.stackexchange.com">Electrical Engineering</li>
+			<li class="item" data-value="graphicdesign.stackexchange.com">Graphic Design</li>
+			<li class="item" data-value="scifi.stackexchange.com">Science Fiction & Fantasy</li>
+			<li class="item" data-value="wordpress.stackexchange.com">Wordpress</li>
+			<li class="item" data-value="answers.onstartups.com">Startups</li>
+			<li class="item" data-value="photo.stackexchange.com">Photography</li>
+			<li class="item" data-value="bitcoin.stackexchange.com">Bitcoin</li>
+			<li class="item" data-value="ux.stackexchange.com">User Experience</li>
+			<li class="item" data-value="money.stackexchange.com">Personal Finance & Money</li>
+			<li class="item" data-value="japanese.stackexchange.com">Japanese Language</li>
+			<li class="item" data-value="history.stackexchange.com">History</li>
+		</ul>
+		<div class="text">Programming</div>  
+		<i class="dropdown icon"></i>
+	</div>
+	<input type="submit" class="button" value="LEARN!" >
+</form>

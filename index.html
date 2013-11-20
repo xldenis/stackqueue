@@ -40,10 +40,11 @@ MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX",
 <title> Stack Queue </title>
 </head>
 <body style="margin:0px;">
-  <div class="ui fixed transparent inverted main menu">
-    <div class="title item"><a href="/" style="text-decoration:none;">STACKQ</a></div>
-    <div class="right menu">
-      <div class="vertically fitted borderless item">
+  <div class="menu">
+    <div class="title"><a href="/" style="text-decoration:none;">STACKQ</a></div>
+    <div class="links">
+      
+    <div class="item">
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://stackq.herokuapp.com" data-text="StackQ: know what you don't know" data-via="yalehack" data-count="none" data-hashtags="yalehack">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         <iframe src="http://ghbtns.com/github-btn.html?user=xldenis&amp;repo=stackqueue&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="20"></iframe>
@@ -53,22 +54,11 @@ MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX",
       </a>
     </div>
   </div>
-  <div class="masthead segment">
-    <div class="ui page grid">
-      <div class="column">
-        <div class="introduction">
-          <h1>StackQ<a hrref="" class="ui black label" style="position:relative;top:-20px;left:3px;">v1.0</a></h1>
-          <h2 class="ui header" style="margin-top:-8px;color:#fff;">Know What you Don't Know</h2>
-          <h2 class="ui header" style="color:#fff;">StackQ empowers you to learn new skills when search engines don't help</h2>
-        </div>
-      </div>
-    </div>
+
+  <div  class="container" ng-view>
+    <!-- <section class="column ui segment"  style="margin-top:30px;margin-bottom:30px;"></section> -->
   </div>
-  <div  class="ui one column page grid">
-    <section class="column"></section>
-    <section class="column ui segment" ng-view style="margin-top:30px;margin-bottom:30px;"></section>
-    <section class="column"></section>
-  </div>
+
   <div class="ui modal" style="position:absolute;top:135px;height:600px;overflow-y:scroll;">
     <i class="close icon"></i>
     <div class="header">Your Strengths and Weaknesses...</div>

@@ -1,19 +1,16 @@
 html {
-   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-   font-size: 15px;
- }
+ font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+ font-size: 15px;
+}
 
- body{
+body{
   background:url(/images/subtle_grunge.png);
- }
+}
 
 h1,h2,h3,h4,h5,h6 {
-   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+ font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
-.container{
-  max-width:700px;
-  margin: auto !important;
-}
+
 .ui.input input.clear{
   background: transparent;
   border-radius: 0;
@@ -49,4 +46,64 @@ h1,h2,h3,h4,h5,h6 {
 .ui.segment.attached.clear {
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+/* CONTAINER STYLES */
+
+.container{
+
+  width:700px;
+  margin: auto;
+  background:white;
+  margin-top:150px;
+}
+/* INDEX STYLES */
+form.fluid {
+  font-size: 1em;
+  padding: 2em;
+}
+form.fluid > input {
+  font-size: 1em;
+}
+form.fluid input.text {
+  border: none;
+  border-bottom: 1px dashed #ccc;
+}
+form.fluid input.button {
+  color: white;
+  background: red;
+  border:none;
+  padding: .5em;
+}
+/* MENU STYLES */
+.menu {
+  width: 100%;
+  height:auto;
+  background: #333;
+}
+.menu .title{
+  color: white;
+  border-right: 1px solid;
+  display:inline-block;
+  padding: 0.75em 1em 0.75em 1em ;
+  vertical-align: middle;
+}
+.menu .title > a:visited{
+  color:white;
+  line-height: 1;
+}
+.menu .links {
+  float:right;
+
+}
+.menu .links .item {
+  line-height: 1;
+  vertical-align: middle;
+  display:inline-block;
+
+}
+.menu .links > a {
+  border-left: 1px solid;
+  padding: 0.75em 1em 0.75em 1em ;
+  color: white;
+  display:inline-block;
 }
