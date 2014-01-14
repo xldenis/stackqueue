@@ -6,6 +6,10 @@ StackQ creates procedural quizzes on any subject by pulling questions on any sub
 
 Todo:
 
+- Offline Mode
+  - At the very least fail explicitly
+  - Ideally, download questions and cache style files ahead of time so
+that site is accessible while offline. 
 - Finish redesigning views.
 - Mobile view.
 - Improved selection algorithm, current one too linear and simple

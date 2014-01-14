@@ -1,10 +1,14 @@
 
 
-<form ng-submit="submitTopic();" class="fluid input" style="text-align:center;">
+<form ng-submit="submitTopic();" class="fluid input card" style="text-align:center;">
+<h1> StackQ </h1>
+<p> Generate quizzes on any subject you can think of! </p>
 I want to learn about...
 	<input ng-model="topic" class="text" type="text" id='topic' placeholder="{{search_placeholder}}" style="margin-bottom:10px;">
 	in
 	<div class="ui inline dropdown">
+		<div class="text">Programming</div>  
+		<i class="dropdown icon"></i>
 		<ul class="menu">
 			<li class="item active" data-value="stackoverflow.com">Programming</li>
 			<li class="item" data-value="superuser.com">System Administration</li>
@@ -25,8 +29,7 @@ I want to learn about...
 			<li class="item" data-value="japanese.stackexchange.com">Japanese Language</li>
 			<li class="item" data-value="history.stackexchange.com">History</li>
 		</ul>
-		<div class="text">Programming</div>  
-		<i class="dropdown icon"></i>
+
 	</div>
 	<input type="submit" class="button" value="LEARN!" >
 </form>

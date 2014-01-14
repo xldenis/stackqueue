@@ -145,7 +145,7 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   $scope.submitTopic = function () {
     //write to the external variable here
     $rootScope.topic = $scope.topic.split(' ').join('-');
-    $rootScope.stackexchangeSite = $('div.menu > div.active').attr('data-value');
+    $rootScope.stackexchangeSite = $('ul.menu > li.active').attr('data-value');
     $rootScope.hasLoaded = false;
     window.location = "#question";
   }
@@ -171,6 +171,7 @@ SQ.controller("IndexController", function ($scope, $http, $window, $location, $r
   };
 
   $scope.updateTags = function(site) {
+    site = site || "stackoverflow";
     //get all tags
     $http.jsonp('http://api.stackexchange.com/2.1/tags?pagesize=20&order=desc&sort=popular&site=' + site + '&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
       .success(function(data, status, headers, config) {
@@ -212,8 +213,11 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
                     avgTagScore = 0.0;
                     count = 0;
                     for (tag in question.tags)
+                            if($rootScope.tags[question.tags[tag]]){
+                              count++;
+                            }
                             avgTagScore += $rootScope.tags[question.tags[tag]];
-                    avgTagScore /= question.tags.length;
+                    avgTagScore /= count;
                     $rootScope.questions[q].ourScore = (avgTagScore * 10000) + question.score
             }
     }
@@ -224,6 +228,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
   
   //call with json response of new questions
   function processNewlyFetchedQuestions(newQuestions) {
+
     if (newQuestions.length == 0) {
       $window.alert("oops - no results for that!");
       $location.path('/index');
@@ -246,7 +251,7 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
             question.question_id = new String(question.question_id);
             if ($rootScope.questions[question.question_id] == undefined) {
                     question.asked = false;
-                    question.ourScore = -1; //not calculated yet
+                    question.score = -1; //not calculated yet
                     $rootScope.questions[question.question_id] = question;
             }
     }
@@ -254,18 +259,16 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
   };
 
   $scope.getNewQuestion = function() {
-
     //update scores
     updateAllUnansweredQuestionScores();
-
     //compute best question
     maxScore = -10000000;
     topQuestion = $rootScope.questions[0];
     for (q in $rootScope.questions) {
             question = $rootScope.questions[q];
             if (question.asked == false) {
-                    if (question.ourScore > maxScore) {
-                            maxScore = question.ourScore;
+                    if (question.score > maxScore) {
+                            maxScore = question.score;
                             topQuestion = question;
                     }
             }
@@ -309,7 +312,6 @@ SQ.controller("QuestionController", function ($scope, $http, $window, $route, $l
     $rootScope.questions = {};
     $rootScope.tags = {};
     $rootScope.question = true;
-
     // load the data for the 'python' stackoverflow questions
     $http.jsonp('https://api.stackexchange.com/2.1/search?pagesize=100&order=desc&sort=votes&tagged=' + encodeURIComponent($rootScope.topic) + '&site=' + $rootScope.stackexchangeSite + '&filter=withbody&callback=JSON_CALLBACK&key=z3zzdgzm5YOmgvTv3j)V)A((')
       .success(function(data, status, headers, config) {

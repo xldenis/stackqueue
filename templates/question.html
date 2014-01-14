@@ -1,4 +1,4 @@
-<div class="ui grid">
+<!-- <div class="ui grid">
   <section class="ui fourteen wide column">
     <h2 class="ui dividing header" mathjax-bind="currentTitle"></h2>
     <article>
@@ -17,4 +17,21 @@
  <section class="ui right floated one wide column">
   <a class="ui label teal" ng-click="go()" style="text-decoration:none;position:relative;top:10px;">Score</a>
 </section>
+</div>
+ -->
+
+  
+  <article class="question card">
+    <h2 mathjax-bind="currentTitle"> Title</h2>
+    <ul class="labels">
+      <li class="label" ng-repeat="tag in currentTags">{{ tag }}</li>
+    </ul>
+    <p mathjax-bind="currentQuestion">
+    </p>
+  <footer class="answers">
+    <span class="false"   ng-click="questionNotKnown()"> Show me the answer. </span>
+    <span class="skip"    ng-click="getNewQuestion()">Skip this subject.</span>
+    <span class="correct" ng-click="questionKnown()">I know this, next.</span>
+  </footer>
+  </article>
 </div>

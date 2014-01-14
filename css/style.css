@@ -56,7 +56,7 @@ h1,h2,h3,h4,h5,h6 {
   background:white;
   margin-top:150px;
 }
-/* INDEX STYLES */
+/* Form Styles */
 form.fluid {
   font-size: 1em;
   padding: 2em;
@@ -74,7 +74,7 @@ form.fluid input.button {
   border:none;
   padding: .5em;
 }
-/* MENU STYLES */
+/* Menu Styles */
 .menu {
   width: 100%;
   height:auto;
@@ -107,3 +107,69 @@ form.fluid input.button {
   color: white;
   display:inline-block;
 }
+/* Question styles */ 
+.card {
+  padding: 10px 50px;
+  box-shadow: 5px 5px 20px 2px #ddd;
+}
+.question {
+  margin: auto;
+}
+
+.labels {
+  padding: 0;
+  list-style: none;
+
+}
+.labels > .label {
+  display:inline;
+  margin: 0 2px;
+  padding: 2px 5px;
+  background: #dedede;
+  color:#898989;
+  font-weight: 100;
+  font-size: .85em;
+  border-radius:2px;
+
+}
+
+.answers {
+  width: 100%;
+  overflow:auto;
+}
+.answers > span {
+  width: 31.3333%;
+  margin: 1%;
+  float:left;
+  text-align: center;
+  padding: 10px 0;
+  box-sizing: border-box;
+  transition: background 0.3s;
+  font-weight: 200;
+  border-radius: 4px;
+}
+.answers .false {
+  border: 2px solid #D95C5C;
+}
+.answers .false:hover {
+  background: #D95C5C;
+}
+.answers  .skip {
+  border: 2px solid #E96633;
+}
+.answers .skip:hover {
+  background: #E96633;
+}
+.answers .correct {
+  border: 2px solid #5BBD72;
+}
+.answers .correct:hover {
+  background: #5BBD72;
+}
+
+code{
+  background: #eee;
+  border:1px solid #ddd;
+  border-radius: 2px;
+}
+/* Answer Styles */
